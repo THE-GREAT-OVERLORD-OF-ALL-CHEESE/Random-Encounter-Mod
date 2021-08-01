@@ -1,0 +1,16 @@
+{
+  "name": "Random Encounter Mod",
+  "description": "Randomly spawns ASF forces that will invade your territory endlessly, great for MP!",
+  "dll_file": "RandomEncounterMod.dll",
+  "last_edit": 637516836125403880,
+  "pub_id": "",
+  "json_version": "",
+  "version": "",
+  "tagline": "",
+  "repository": "",
+  "is_public": false,
+  "unlisted": false,
+  "preview_image": "",
+  "web_preview_image": "",
+  "ContentType": 1
+}
