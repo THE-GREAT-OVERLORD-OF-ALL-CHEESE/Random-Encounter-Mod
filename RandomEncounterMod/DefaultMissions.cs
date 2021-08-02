@@ -102,6 +102,16 @@ public static class DefaultMissions
            5000,
            200));
 
+        missionGroup.missions.Add(new AIMission("Enemy Bomber w/ 2x ASF-58 escorts",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" }),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" })
+           },
+           5000,
+           200));
+
         missionGroup.missions.Add(new AIMission("3x Enemy Bomber w/ 2x ASF-30 escorts",
            AIMissionType.Strike,
            new List<AircraftLoadout>() {
@@ -122,6 +132,18 @@ public static class DefaultMissions
                 new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
                 new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "asf_droptank", "asf_droptank" }),
                 new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "asf_droptank", "asf_droptank" })
+        },
+        5000,
+        200));
+
+        missionGroup.missions.Add(new AIMission("3x Enemy Bomber w/ 2x ASF-58 escorts",
+        AIMissionType.Strike,
+        new List<AircraftLoadout>() {
+                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
+                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
+                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" }),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" })
         },
         5000,
         200));

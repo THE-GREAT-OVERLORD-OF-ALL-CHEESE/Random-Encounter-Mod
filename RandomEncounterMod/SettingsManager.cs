@@ -17,6 +17,9 @@ public class RandomEncounterSettings
     public float maxSpawnTime = 3;
 
     public int maxActiveForces = 3;
+
+    public bool autoBalancing = false;
+    public float enemyRatio = 1.5f;
 }
 
 public static class SettingsManager
@@ -29,7 +32,11 @@ public static class SettingsManager
 
     public static UnityAction<float> minSpawnTime_changed;
     public static UnityAction<float> maxSpawnTime_changed;
+
     public static UnityAction<int> maxActiveForces_changed;
+
+    public static UnityAction<bool> autoBalancing_changed;
+    public static UnityAction<float> enemyRatio_changed;
 
     public static void SetupSettingsMenu(VTOLMOD mod) {
         SettingsManager.mod = mod;
@@ -53,6 +60,15 @@ public static class SettingsManager
         maxActiveForces_changed += maxActiveForces_changed;
         modSettings.CreateCustomLabel("Maximum Active Enemy Forces:");
         modSettings.CreateIntSetting("(Default = 3 forces)", maxActiveForces_changed, settings.maxActiveForces, 0, 10);
+
+        autoBalancing_changed += autoBalancing_Setting;
+        modSettings.CreateCustomLabel("Autobalance the teams based on the number of players:");
+        modSettings.CreateBoolSetting("(Default = false)", autoBalancing_changed, settings.autoBalancing);
+
+        enemyRatio_changed += enemyRatio_Setting;
+        modSettings.CreateCustomLabel("Enemy Ratio (enemy groups per player):");
+        modSettings.CreateFloatSetting("(Default = false)", enemyRatio_changed, settings.enemyRatio, 0, 10);
+
         VTOLAPI.CreateSettingsMenu(modSettings);
     }
 
@@ -127,6 +143,19 @@ public static class SettingsManager
     public static void maxActiveForces_Setting(int newval)
     {
         settings.maxActiveForces = newval;
+        settingsChanged = true;
+    }
+
+    public static void autoBalancing_Setting(bool newval)
+    {
+        settings.autoBalancing = newval;
+        settingsChanged = true;
+    }
+
+
+    public static void enemyRatio_Setting(float newval)
+    {
+        settings.enemyRatio = newval;
         settingsChanged = true;
     }
 }

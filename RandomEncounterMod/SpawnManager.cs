@@ -19,10 +19,28 @@ public static class SpawnManager
     public static void SpawnerUpdate(float deltaTime)
     {
         spawnCooldown -= deltaTime;
-        if (activeForces.Count < SettingsManager.settings.maxActiveForces && spawnCooldown < 0)
+        if (activeForces.Count < GetMaxAircraft() && spawnCooldown < 0)
         {
             spawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minSpawnTime * 60, SettingsManager.settings.maxSpawnTime * 60);
             SpawnRandomAirGroup();
+        }
+    }
+
+    public static float GetMaxAircraft()
+    {
+        if (SettingsManager.settings.autoBalancing)
+        {
+            int alliedAircraft = 0;
+            foreach (Actor actor in TargetManager.instance.allActors) {
+                if (actor.team == Teams.Allied && actor.role == Actor.Roles.Air) {
+                    alliedAircraft++;
+                }
+            }
+
+            return alliedAircraft * SettingsManager.settings.enemyRatio;
+        }
+        else {
+            return SettingsManager.settings.maxActiveForces;
         }
     }
 
