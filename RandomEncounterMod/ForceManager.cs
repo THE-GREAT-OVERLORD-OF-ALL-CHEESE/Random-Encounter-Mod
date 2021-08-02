@@ -17,7 +17,7 @@ public class ForceManager : MonoBehaviour
     public float missionDirection;
 
     public void Awake() {
-        RandomEncounterMod.instance.AddForce(this);
+        SpawnManager.AddForce(this);
 
         aircrafts = new List<ForceAircraft>();
         tasks = new List<AITask>();
@@ -30,9 +30,9 @@ public class ForceManager : MonoBehaviour
 
 
 
-        Vector3D playerPos = RandomEncounterMod.GetPlayerPosition();
+        Vector3D playerPos = SpawnManager.GetPlayerPosition();
 
-        Vector3D spawnPos3D = new Vector3D(-Mathf.Sin(missionDirection * Mathf.Deg2Rad) * RandomEncounterMod.GetTrafficRadius() + playerPos.x, mission.altitude, -Mathf.Cos(missionDirection * Mathf.Deg2Rad) * RandomEncounterMod.GetTrafficRadius() + playerPos.z);
+        Vector3D spawnPos3D = new Vector3D(-Mathf.Sin(missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.x, mission.altitude, -Mathf.Cos(missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.z);
         Vector3 spawnPos = VTMapManager.GlobalToWorldPoint(spawnPos3D);
         Quaternion spawnRot = Quaternion.LookRotation(new Vector3(Mathf.Sin(missionDirection), 0, Mathf.Cos(missionDirection)));
         Debug.Log("Mission altitude: " + mission.altitude);
@@ -92,28 +92,34 @@ public class ForceManager : MonoBehaviour
             }
         }
 
+        Vector3D missionTgt = new Vector3D();
+
         switch (mission.missionType) {
             case AIMissionType.Recon:
-                tasks.Add(new AITask_FlyToObjective(this));
-                tasks.Add(new AITask_Recon(this));
-                tasks.Add(new AITask_AirSupport(this));
+                missionTgt = MissionPointManager.GetRandomReconPoint();
+                tasks.Add(new AITask_FlyToObjective(this, missionTgt));
+                tasks.Add(new AITask_Recon(this, missionTgt));
+                tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.Bombing:
-                tasks.Add(new AITask_FlyToObjective(this));
-                tasks.Add(new AITask_Bomb(this));
-                tasks.Add(new AITask_AirSupport(this));
+                missionTgt = MissionPointManager.GetRandomBombingPoint();
+                tasks.Add(new AITask_FlyToObjective(this, missionTgt));
+                tasks.Add(new AITask_Bomb(this, missionTgt));
+                tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.Strike:
-                tasks.Add(new AITask_FlyToObjective(this));
-                tasks.Add(new AITask_Strike(this));
-                tasks.Add(new AITask_AirSupport(this));
+                missionTgt = MissionPointManager.GetRandomStrikePoint();
+                tasks.Add(new AITask_FlyToObjective(this, missionTgt));
+                tasks.Add(new AITask_Strike(this, missionTgt));
+                tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.CAP:
-                tasks.Add(new AITask_FlyToObjective(this));
-                tasks.Add(new AITask_CAP(this));
+                missionTgt = MissionPointManager.GetRandomCAPPoint();
+                tasks.Add(new AITask_FlyToObjective(this, missionTgt));
+                tasks.Add(new AITask_CAP(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             default:
@@ -142,7 +148,7 @@ public class ForceManager : MonoBehaviour
     }
 
     private void OnDestroy() {
-        RandomEncounterMod.instance.RemoveForce(this);
+        SpawnManager.RemoveForce(this);
         foreach (AITask task in tasks) {
             task.Cleanup();
         }

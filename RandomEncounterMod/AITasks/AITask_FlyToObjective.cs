@@ -10,14 +10,14 @@ public class AITask_FlyToObjective : AITask
     public Waypoint waypoint;
     public Vector3D objectivePos;
 
-    public AITask_FlyToObjective(ForceManager force) : base(force)
+    public AITask_FlyToObjective(ForceManager force, Vector3D objective) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
         waypointObject.AddComponent<FloatingOriginTransform>();
         waypoint.SetTransform(waypointObject.transform);
 
-        objectivePos = VTMapManager.WorldToGlobalPoint(GameObject.FindObjectOfType<AirportManager>().transform.position);
+        objectivePos = objective;
         waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
 
         taskName = "fly to objective";

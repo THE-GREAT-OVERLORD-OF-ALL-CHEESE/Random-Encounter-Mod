@@ -11,7 +11,7 @@ public class AITask_Recon : AITask
     public Vector3D objectivePos;
     public float reconTimer;
 
-    public AITask_Recon(ForceManager force) : base(force)
+    public AITask_Recon(ForceManager force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -19,7 +19,7 @@ public class AITask_Recon : AITask
         waypoint.SetTransform(waypointObject.transform);
 
         reconTimer = UnityEngine.Random.Range(120f, 180f);
-        objectivePos = VTMapManager.WorldToGlobalPoint(GameObject.FindObjectOfType<AirportManager>().transform.position);
+        objectivePos = missionTgt;
         waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
 
         taskName = "recon";

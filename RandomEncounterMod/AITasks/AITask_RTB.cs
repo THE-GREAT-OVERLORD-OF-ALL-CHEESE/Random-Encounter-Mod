@@ -18,8 +18,8 @@ public class AITask_RTB : AITask
         waypoint.SetTransform(waypointObject.transform);
 
 
-        Vector3D playerPos = RandomEncounterMod.GetPlayerPosition();
-        objectivePos = new Vector3D(-Mathf.Sin(force.missionDirection * Mathf.Deg2Rad) * RandomEncounterMod.GetTrafficRadius() + playerPos.x, 0, -Mathf.Cos(force.missionDirection * Mathf.Deg2Rad) * RandomEncounterMod.GetTrafficRadius() + playerPos.z);
+        Vector3D playerPos = SpawnManager.GetPlayerPosition();
+        objectivePos = new Vector3D(-Mathf.Sin(force.missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.x, 0, -Mathf.Cos(force.missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.z);
         waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
         Debug.Log("RTB pos: " + objectivePos.ToString());
 

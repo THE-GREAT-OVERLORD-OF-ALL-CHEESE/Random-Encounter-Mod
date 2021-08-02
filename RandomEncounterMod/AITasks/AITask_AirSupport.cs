@@ -11,12 +11,15 @@ public class AITask_AirSupport : AITask
     public Vector3D objectivePos;
     public bool supportComplete;
 
-    public AITask_AirSupport(ForceManager force) : base(force)
+    public AITask_AirSupport(ForceManager force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
         waypointObject.AddComponent<FloatingOriginTransform>();
         waypoint.SetTransform(waypointObject.transform);
+
+        objectivePos = missionTgt;
+        waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
 
         taskName = "airsupport";
 

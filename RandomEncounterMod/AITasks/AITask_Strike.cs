@@ -11,14 +11,14 @@ public class AITask_Strike : AITask
     public Vector3D objectivePos;
     public float strikeTimer = 300;
 
-    public AITask_Strike(ForceManager force) : base(force)
+    public AITask_Strike(ForceManager force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
         waypointObject.AddComponent<FloatingOriginTransform>();
         waypoint.SetTransform(waypointObject.transform);
 
-        objectivePos = VTMapManager.WorldToGlobalPoint(GameObject.FindObjectOfType<AirportManager>().transform.position);
+        objectivePos = missionTgt;
         waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
 
         taskName = "strike";

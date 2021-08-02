@@ -84,8 +84,11 @@
     <Compile Include="ForceAircraft.cs" />
     <Compile Include="ForceManager.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MissionPointManager.cs" />
     <Compile Include="Patches\Patch_ActorExtentions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsManager.cs" />
+    <Compile Include="SpawnManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

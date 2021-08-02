@@ -133,7 +133,7 @@ public static class DefaultMissions
                 new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "wr-25", "wr-25", "wr-25", "asf-srmx1", "asf-srmx1", "wr-25", "wr-25", "wr-25" ,"asf-srmx1"}),
                 new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "wr-25", "wr-25", "wr-25", "asf-srmx1", "asf-srmx1", "wr-25", "wr-25", "wr-25" ,"asf-srmx1"})
            },
-           5000,
+           1000,
            250));
 
         missionGroup.missions.Add(new AIMission("3x ASF-30 Strikers",
@@ -143,7 +143,7 @@ public static class DefaultMissions
                 new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "wr-25", "wr-25", "wr-25", "asf-srmx1", "asf-srmx1", "wr-25", "wr-25", "wr-25" ,"asf-srmx1"}),
                 new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "wr-25", "wr-25", "wr-25", "asf-srmx1", "asf-srmx1", "wr-25", "wr-25", "wr-25" ,"asf-srmx1"})
            },
-           5000,
+           1000,
            250));
 
         /*missionGroup.missions.Add(new AIMission("2x GAV-25 Strikers",
@@ -152,7 +152,7 @@ public static class DefaultMissions
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"})
                 },
-           3500,
+           1000,
            200));
 
         missionGroup.missions.Add(new AIMission("3x GAV-25 Strikers",
@@ -162,7 +162,7 @@ public static class DefaultMissions
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"})
                 },
-           3500,
+           1000,
            200));*/
 
         missionGroup.missions.Add(new AIMission("3x UCAV Strikers",
@@ -186,6 +186,30 @@ public static class DefaultMissions
            },
            3500,
            200));
+
+        missionGroup.missions.Add(new AIMission("8x UCAV Strikers",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" })
+           },
+           3500,
+           200));
+
+        missionGroup.missions.Add(new AIMission("2x Rebel F/A-26B Strikers",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("FA-26B AI", new string[] { "af_gun", "fa26_aim9x3", "fa26_maverickx1", "fa26_maverickx1", "h70-x14ld-under", "fa26_mk82x3", "fa26_mk82x3", "h70-x14ld-under", "fa26_maverickx1", "fa26_maverickx1", "fa26_aim9x3", "fa26_droptank", "fa26_droptank", "fa26_droptank", "af_tgp", ""}),
+                new AircraftLoadout("FA-26B AI", new string[] { "af_gun", "fa26_aim9x3", "fa26_maverickx1", "fa26_maverickx1", "h70-x14ld-under", "fa26_mk82x3", "fa26_mk82x3", "h70-x14ld-under", "fa26_maverickx1", "fa26_maverickx1", "fa26_aim9x3", "fa26_droptank", "fa26_droptank", "fa26_droptank", "af_tgp", ""})
+           },
+           3500,
+           250));
 
         //CAP missions
         missionGroup.missions.Add(new AIMission("2x ASF-30 CAP",
@@ -259,20 +283,21 @@ public static class DefaultMissions
         /*missionGroup.missions.Add(new AIMission("2x Rebel AV-42C CAP",
            AIMissionType.CAP,
            new List<AircraftLoadout>() {
-                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", ""}),
-                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", ""})
+                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", "" }),
+                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", "" })
            },
            3500,
            250));
+        */
 
         missionGroup.missions.Add(new AIMission("2x Rebel F/A-26B CAP",
            AIMissionType.CAP,
            new List<AircraftLoadout>() {
-                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", ""}),
-                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", ""})
+                new AircraftLoadout("FA-26B AI", new string[] { "af_gun", "af_aim9", "af_aim9", "af_amraamRail", "af_amraam", "af_amraam", "af_amraam", "af_amraam", "af_amraamRail", "af_aim9", "af_aim9", "fa26_droptank", "fa26_droptank", "fa26_droptank", "af_tgp", ""}),
+                new AircraftLoadout("FA-26B AI", new string[] { "af_gun", "af_aim9", "af_aim9", "af_amraamRail", "af_amraam", "af_amraam", "af_amraam", "af_amraam", "af_amraamRail", "af_aim9", "af_aim9", "fa26_droptank", "fa26_droptank", "fa26_droptank", "af_tgp", ""})
            },
            3500,
-           250));*/
+           250));
 
         return missionGroup;
     }
