@@ -37,10 +37,11 @@ public static class DefaultMissions
 
 
         //bombing missions
-        missionGroup.missions.Add(new AIMission("Enemy Bomber",
+        missionGroup.missions.Add(new AIMission("Enemy Bomber w/ ASF-58 escort",
             AIMissionType.Bombing,
             new List<AircraftLoadout>() {
-                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"})
+                new AircraftLoadout("EBomberAI", new string[] { "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack", "ebomber_stdRack"}),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" })
             },
             8000,
             200));
@@ -73,10 +74,11 @@ public static class DefaultMissions
             8000,
             250));
 
-        missionGroup.missions.Add(new AIMission("Low Alt Bomber",
+        missionGroup.missions.Add(new AIMission("Low Alt Bomber w/ ASF-58 escort",
             AIMissionType.Bombing,
             new List<AircraftLoadout>() {
-                new AircraftLoadout("ABomberAI", new string[] { "abomber_mk82AIRRack", "abomber_mk82AIRRack", "abomber_mk82AIRRack", "abomber_mk82AIRRack" })
+                new AircraftLoadout("ABomberAI", new string[] { "abomber_mk82AIRRack", "abomber_mk82AIRRack", "abomber_mk82AIRRack", "abomber_mk82AIRRack" }),
+                new AircraftLoadout("ASF-58", new string[] { "asf58_gun", "asf58_mrmx8", "asf58_mrmx8", "asf58_srmx2Left", "asf58_srmx2Right", "", "" })
             },
             1000,
             200));
@@ -168,7 +170,7 @@ public static class DefaultMissions
            1000,
            250));
 
-        /*missionGroup.missions.Add(new AIMission("2x GAV-25 Strikers",
+        missionGroup.missions.Add(new AIMission("2x GAV-25 Strikers",
            AIMissionType.Strike,
            new List<AircraftLoadout>() {
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
@@ -185,7 +187,7 @@ public static class DefaultMissions
                 new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"})
                 },
            1000,
-           200));*/
+           200));
 
         missionGroup.missions.Add(new AIMission("3x UCAV Strikers",
            AIMissionType.Strike,
@@ -220,6 +222,16 @@ public static class DefaultMissions
                 new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
                 new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
                 new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" })
+           },
+           3500,
+           200));
+
+        //rebel strike
+        missionGroup.missions.Add(new AIMission("2x Rebel AV-42C Strikers",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" }),
+                new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" })
            },
            3500,
            200));
@@ -302,7 +314,7 @@ public static class DefaultMissions
            250));
 
         //rebel CAP
-        /*missionGroup.missions.Add(new AIMission("2x Rebel AV-42C CAP",
+        missionGroup.missions.Add(new AIMission("2x Rebel AV-42C CAP",
            AIMissionType.CAP,
            new List<AircraftLoadout>() {
                 new AircraftLoadout("AV-42CAI", new string[] { "gau-8", "sidewinderx3", "sidewinderx3", "sidewinderx3", "sidewinderx3", "", "" }),
@@ -310,7 +322,7 @@ public static class DefaultMissions
            },
            3500,
            250));
-        */
+        
 
         missionGroup.missions.Add(new AIMission("2x Rebel F/A-26B CAP",
            AIMissionType.CAP,

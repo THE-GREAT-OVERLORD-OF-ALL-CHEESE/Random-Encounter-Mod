@@ -69,6 +69,8 @@ public class ForceManager : MonoBehaviour
             IEngageEnemies[] engagers = ai.aircraft.gameObject.GetComponentsInChildrenImplementing<IEngageEnemies>(true);
             aircraftSpawnerTraverse.Field("engagers").SetValue(engagers);
 
+            ai.pilot.startLanded = false;
+
             ai.pilot.actor.discovered = false;
 
             aircraftObj.SetActive(true);

@@ -49,6 +49,9 @@ public class AITask_CAP : AITask
     public override void Cleanup()
     {
         base.Cleanup();
-        GameObject.Destroy(waypoint.GetTransform().gameObject);
+        if (waypoint.GetTransform() != null)
+        {
+            GameObject.Destroy(waypoint.GetTransform().gameObject);
+        }
     }
 }

@@ -49,6 +49,9 @@ public class AITask_AirSupport : AITask
     public override void Cleanup()
     {
         base.Cleanup();
-        GameObject.Destroy(waypoint.GetTransform().gameObject);
+        if (waypoint.GetTransform() != null)
+        {
+            GameObject.Destroy(waypoint.GetTransform().gameObject);
+        }
     }
 }
