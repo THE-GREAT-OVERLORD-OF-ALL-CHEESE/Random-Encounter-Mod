@@ -20,6 +20,8 @@ public class RandomEncounterSettings
 
     public bool autoBalancing = false;
     public float enemyRatio = 1.5f;
+
+    public bool giveRWR = true;
 }
 
 public static class SettingsManager
@@ -37,6 +39,8 @@ public static class SettingsManager
 
     public static UnityAction<bool> autoBalancing_changed;
     public static UnityAction<float> enemyRatio_changed;
+
+    public static UnityAction<bool> giveRWR_changed;
 
     public static void SetupSettingsMenu(VTOLMOD mod) {
         SettingsManager.mod = mod;
@@ -68,6 +72,10 @@ public static class SettingsManager
         enemyRatio_changed += enemyRatio_Setting;
         modSettings.CreateCustomLabel("Enemy Ratio (enemy groups per player):");
         modSettings.CreateFloatSetting("(Default = false)", enemyRatio_changed, settings.enemyRatio, 0, 10);
+
+        giveRWR_changed += giveRWR_Setting;
+        modSettings.CreateCustomLabel("Modifies the ASF to give them RWRs:");
+        modSettings.CreateBoolSetting("(Default = true)", giveRWR_changed, settings.giveRWR);
 
         VTOLAPI.CreateSettingsMenu(modSettings);
     }
@@ -156,6 +164,12 @@ public static class SettingsManager
     public static void enemyRatio_Setting(float newval)
     {
         settings.enemyRatio = newval;
+        settingsChanged = true;
+    }
+
+    public static void giveRWR_Setting(bool newval)
+    {
+        settings.giveRWR = newval;
         settingsChanged = true;
     }
 }

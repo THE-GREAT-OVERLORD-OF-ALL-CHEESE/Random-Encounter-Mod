@@ -73,6 +73,19 @@ public class ForceManager : MonoBehaviour
 
             ai.pilot.actor.discovered = false;
 
+            if (ai.pilot.detectionRadar != null)
+            {
+                ai.pilot.vt_radarEnabled = true;
+                ai.pilot.playerComms_radarEnabled = true;
+            }
+            if (ai.pilot.moduleRWR == null && SettingsManager.settings.giveRWR)
+            {
+                GameObject rwrObject = new GameObject();
+                rwrObject.transform.parent = ai.transform;
+                ModuleRWR rwr = rwrObject.AddComponent<ModuleRWR>();
+                ai.pilot.moduleRWR = rwr;
+            }
+
             aircraftObj.SetActive(true);
 
             Loadout loadout = new Loadout();
