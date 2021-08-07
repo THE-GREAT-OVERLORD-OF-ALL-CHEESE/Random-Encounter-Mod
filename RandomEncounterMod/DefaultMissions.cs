@@ -9,7 +9,6 @@ public static class DefaultMissions
     public static AIMissionGroup GenerateDefaultMissions() {
         AIMissionGroup missionGroup = new AIMissionGroup();
 
-
         //recon missions
         missionGroup.missions.Add(new AIMission("MQ-31 Recon",
             AIMissionType.Recon,

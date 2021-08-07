@@ -30,7 +30,7 @@ public class AITask_CAP : AITask
     {
         base.StartTask(aircraft);
         aircraft.aircraft.SetOrbitNow(waypoint, 5000, force.mission.altitude);
-        aircraft.aircraft.SetEngageEnemies(false);
+        aircraft.aircraft.SetEngageEnemies(true);
     }
 
     public override void UpdateTask()
