@@ -16,6 +16,12 @@ public static class MissionPointManager
     public static List<Transform> seaSpawnWaypoints;
     public static List<Transform> seaRondevousWaypoints;
 
+    public static List<Waypoint> aGroundSpawnWaypoints;
+    public static List<Waypoint> aGroundRdvWaypoint;
+
+    public static List<Waypoint> eGroundSpawnWaypoints;
+    public static List<Waypoint> eGroundRdvWaypoint;
+
     public static void FindAllMissionPoints() {
         bombWaypoints = new List<Transform>();
         strikeWaypoints = new List<Transform>();
@@ -26,7 +32,13 @@ public static class MissionPointManager
 
         seaSpawnWaypoints = new List<Transform>();
         seaRondevousWaypoints = new List<Transform>();
-        
+
+        aGroundSpawnWaypoints = new List<Waypoint>();
+        aGroundRdvWaypoint = new List<Waypoint>();
+
+        eGroundSpawnWaypoints = new List<Waypoint>();
+        eGroundRdvWaypoint = new List<Waypoint>();
+
         foreach (Waypoint waypoint in VTScenario.current.waypoints.GetWaypoints())
         {
             switch (waypoint.GetName()) {
@@ -41,6 +53,19 @@ public static class MissionPointManager
                     break;
                 case "recon":
                     reconWaypoints.Add(waypoint.GetTransform());
+                    break;
+
+                case "a_gnd_spawn":
+                    aGroundSpawnWaypoints.Add(waypoint);
+                    break;
+                case "a_gnd_rdv":
+                    aGroundRdvWaypoint.Add(waypoint);
+                    break;
+                case "e_gnd_spawn":
+                    eGroundSpawnWaypoints.Add(waypoint);
+                    break;
+                case "e_gnd_rdv":
+                    eGroundRdvWaypoint.Add(waypoint);
                     break;
             }
         }
@@ -59,6 +84,11 @@ public static class MissionPointManager
         Debug.Log($"{strikeWaypoints.Count} strike points");
         Debug.Log($"{CAPWaypoints.Count} CAP points");
         Debug.Log($"{reconWaypoints.Count} recon points");
+
+        Debug.Log($"{aGroundSpawnWaypoints.Count} allied ground spawn points");
+        Debug.Log($"{aGroundRdvWaypoint.Count} allied ground rdv points");
+        Debug.Log($"{eGroundSpawnWaypoints.Count} enemy ground spawn points");
+        Debug.Log($"{eGroundRdvWaypoint.Count} enemy ground rdv points");
     }
 
     public static Vector3D GetRandomBombingPoint()
@@ -79,5 +109,28 @@ public static class MissionPointManager
     public static Vector3D GetRandomReconPoint()
     {
         return VTMapManager.WorldToGlobalPoint(reconWaypoints[Random.Range(0, reconWaypoints.Count)].position);
+    }
+
+    public static Waypoint GetRandomGndSpawnPoint(Teams team)
+    {
+        switch (team) {
+            case Teams.Allied:
+                return aGroundSpawnWaypoints[Random.Range(0, aGroundSpawnWaypoints.Count)];
+            case Teams.Enemy:
+            default:
+                return eGroundSpawnWaypoints[Random.Range(0, eGroundSpawnWaypoints.Count)];
+        }
+    }
+
+    public static Waypoint GetRandomGndRdvPoint(Teams team)
+    {
+        switch (team)
+        {
+            case Teams.Allied:
+                return aGroundRdvWaypoint[Random.Range(0, aGroundRdvWaypoint.Count)];
+            case Teams.Enemy:
+            default:
+                return eGroundRdvWaypoint[Random.Range(0, eGroundRdvWaypoint.Count)];
+        }
     }
 }

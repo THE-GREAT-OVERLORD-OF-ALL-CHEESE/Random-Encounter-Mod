@@ -22,6 +22,11 @@ public class RandomEncounterSettings
     public float enemyRatio = 1.5f;
 
     public bool giveRWR = true;
+
+    public float minGroundSpawnTime = 1;
+    public float maxGroundSpawnTime = 3;
+
+    public int maxActiveGroundForces = 5;
 }
 
 public static class SettingsManager
@@ -42,6 +47,11 @@ public static class SettingsManager
 
     public static UnityAction<bool> giveRWR_changed;
 
+    public static UnityAction<float> minGroundSpawnTime_changed;
+    public static UnityAction<float> maxGroundSpawnTime_changed;
+
+    public static UnityAction<int> maxActiveGroundForces_changed;
+
     public static void SetupSettingsMenu(VTOLMOD mod) {
         SettingsManager.mod = mod;
 
@@ -61,8 +71,8 @@ public static class SettingsManager
         modSettings.CreateCustomLabel("Maxium Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 3 minutes)", maxSpawnTime_changed, settings.maxSpawnTime, 0, 60);
 
-        maxActiveForces_changed += maxActiveForces_changed;
-        modSettings.CreateCustomLabel("Maximum Active Enemy Forces:");
+        maxActiveForces_changed += maxActiveForces_Setting;
+        modSettings.CreateCustomLabel("Maximum Active Air Forces:");
         modSettings.CreateIntSetting("(Default = 3 forces)", maxActiveForces_changed, settings.maxActiveForces, 0, 10);
 
         autoBalancing_changed += autoBalancing_Setting;
@@ -76,6 +86,18 @@ public static class SettingsManager
         giveRWR_changed += giveRWR_Setting;
         modSettings.CreateCustomLabel("Modifies the ASF to give them RWRs:");
         modSettings.CreateBoolSetting("(Default = true)", giveRWR_changed, settings.giveRWR);
+
+        minSpawnTime_changed += minSpawnTime_Setting;
+        modSettings.CreateCustomLabel("Minimum Ground Spawn Interval:");
+        modSettings.CreateFloatSetting("(Default = 0 minute)", minGroundSpawnTime_changed, settings.minGroundSpawnTime, 0, 60);
+
+        maxSpawnTime_changed += maxSpawnTime_Setting;
+        modSettings.CreateCustomLabel("Maxium Ground Spawn Interval:");
+        modSettings.CreateFloatSetting("(Default = 1 minutes)", maxGroundSpawnTime_changed, settings.maxGroundSpawnTime, 0, 60);
+
+        maxActiveForces_changed += maxActiveForces_Setting;
+        modSettings.CreateCustomLabel("Maximum Active Enemy Ground Forces:");
+        modSettings.CreateIntSetting("(Default = 5 forces)", maxActiveGroundForces_changed, settings.maxActiveGroundForces, 0, 10);
 
         VTOLAPI.CreateSettingsMenu(modSettings);
     }
@@ -170,6 +192,24 @@ public static class SettingsManager
     public static void giveRWR_Setting(bool newval)
     {
         settings.giveRWR = newval;
+        settingsChanged = true;
+    }
+
+    public static void minGroundSpawnTime_Setting(float newval)
+    {
+        settings.minGroundSpawnTime = newval;
+        settingsChanged = true;
+    }
+
+    public static void maxGroundSpawnTime_Setting(float newval)
+    {
+        settings.maxGroundSpawnTime = newval;
+        settingsChanged = true;
+    }
+
+    public static void maxActiveGroundForces_Setting(int newval)
+    {
+        settings.maxActiveGroundForces = newval;
         settingsChanged = true;
     }
 }

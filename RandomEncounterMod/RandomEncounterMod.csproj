@@ -68,6 +68,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AIGroundMission.cs" />
     <Compile Include="AIMission.cs" />
     <Compile Include="AIMissionGroup.cs" />
     <Compile Include="AIMissionType.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="AITasks\AITask_RTB.cs" />
     <Compile Include="DefaultMissions.cs" />
     <Compile Include="ForceAircraft.cs" />
+    <Compile Include="GroundForceManager.cs" />
     <Compile Include="ForceManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MissionPointManager.cs" />

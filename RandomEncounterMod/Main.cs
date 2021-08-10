@@ -41,6 +41,8 @@ public class RandomEncounterMod : VTOLMOD
         LoadMissionGroupFromFile();
 
         SpawnManager.activeForces = new List<ForceManager>();
+        SpawnManager.aActiveGroundForces = new List<GroundForceManager>();
+        SpawnManager.eActiveGroundForces = new List<GroundForceManager>();
     }
 
     private void OnApplicationQuit()
@@ -93,6 +95,7 @@ public class RandomEncounterMod : VTOLMOD
         if (Input.GetKeyDown(KeyCode.R)) {
             Debug.Log("Reloading settings from file!");
             SettingsManager.LoadSettingsFromFile();
+            LoadMissionGroupFromFile();
         }
     }
 

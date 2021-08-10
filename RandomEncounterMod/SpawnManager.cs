@@ -8,6 +8,8 @@ using UnityEngine;
 public static class SpawnManager
 {
     public static float spawnCooldown;
+    public static float aGroundSpawnCooldown;
+    public static float eGroundSpawnCooldown;
 
     public static float spawnRadius = 50000;//50000
     public static float mapRadius;
@@ -15,6 +17,8 @@ public static class SpawnManager
     public static AIMissionGroup missions;
 
     public static List<ForceManager> activeForces;
+    public static List<GroundForceManager> aActiveGroundForces;
+    public static List<GroundForceManager> eActiveGroundForces;
 
     public static void SpawnerUpdate(float deltaTime)
     {
@@ -23,6 +27,20 @@ public static class SpawnManager
         {
             spawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minSpawnTime * 60, SettingsManager.settings.maxSpawnTime * 60);
             SpawnRandomAirGroup();
+        }
+
+        aGroundSpawnCooldown -= deltaTime;
+        if (aActiveGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && aGroundSpawnCooldown < 0 && MissionPointManager.aGroundSpawnWaypoints.Count > 0 && MissionPointManager.aGroundRdvWaypoint.Count > 0)
+        {
+            aGroundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
+            SpawnRandomGroundGroup(Teams.Allied);
+        }
+
+        eGroundSpawnCooldown -= deltaTime;
+        if (eActiveGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && eGroundSpawnCooldown < 0 && MissionPointManager.eGroundSpawnWaypoints.Count > 0 && MissionPointManager.eGroundRdvWaypoint.Count > 0)
+        {
+            eGroundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
+            SpawnRandomGroundGroup(Teams.Enemy);
         }
     }
 
@@ -55,6 +73,31 @@ public static class SpawnManager
         Debug.Log("Force " + force.mission.missionName + " has been removed.");
     }
 
+    public static void AddGroundForce(GroundForceManager force, Teams team)
+    {
+        if (team == Teams.Allied)
+        {
+            aActiveGroundForces.Add(force);
+        }
+        else
+        {
+            eActiveGroundForces.Add(force);
+        }
+    }
+
+    public static void RemoveGroundForce(GroundForceManager force, Teams team)
+    {
+        if (team == Teams.Allied)
+        {
+            aActiveGroundForces.Remove(force);
+        }
+        else
+        {
+            eActiveGroundForces.Remove(force);
+        }
+        Debug.Log("Ground force " + force.mission.missionName + " has been removed.");
+    }
+
     private static void SpawnRandomAirGroup()
     {
         if (RandomEncounterMod.instance.mpMode && RandomEncounterMod.instance.host == false)
@@ -76,6 +119,32 @@ public static class SpawnManager
         else
         {
             Debug.Log("No forces are available, cannot spawn enemy forces aircraft.");
+        }
+    }
+
+    private static void SpawnRandomGroundGroup(Teams team)
+    {
+        if (RandomEncounterMod.instance.mpMode && RandomEncounterMod.instance.host == false)
+        {
+            return;
+        }
+
+        if (missions.missions.Count > 0)
+        {
+            AIGroundMission mission = missions.groundMissions[UnityEngine.Random.Range(0, missions.groundMissions.Count)];
+
+
+            Debug.Log("Spawning the ground force " + mission.missionName);
+
+            GameObject forceObject = new GameObject();
+            GroundForceManager force = forceObject.AddComponent<GroundForceManager>();
+
+            Waypoint spawn = MissionPointManager.GetRandomGndSpawnPoint(team);
+            force.SetUp(mission, team, spawn.worldPosition);
+        }
+        else
+        {
+            Debug.Log("No forces are available, cannot spawn enemy ground forces.");
         }
     }
 

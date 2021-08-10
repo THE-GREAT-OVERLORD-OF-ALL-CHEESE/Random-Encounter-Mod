@@ -332,6 +332,186 @@ public static class DefaultMissions
            3500,
            250));
 
+
+        //ground units
+        missionGroup.groundMissions.Add(new AIGroundMission("4x Tanks",
+            new List<string>() {
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1"
+            },
+            GroundSquad.GroundFormations.Vee,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("8x Tanks",
+            new List<string>() {
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1",
+                "enemyMBT1"
+            },
+            GroundSquad.GroundFormations.Vee,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("4x Tanks 2",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Vee,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("8x Tanks 2",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Vee,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("4x Rocket Artillery",
+            new List<string>() {
+                "ARocketTruck",
+                "ARocketTruck",
+                "ARocketTruck",
+                "ARocketTruck"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("4x Rocket Artillery 2",
+            new List<string>() {
+                "ERocketTruck",
+                "ERocketTruck",
+                "ERocketTruck",
+                "ERocketTruck"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("Rocket Escort",
+            new List<string>() {
+                "enemyMBT1",
+                "enemyMBT1",
+                "ERocketTruck",
+                "ERocketTruck",
+                "enemyMBT1",
+                "enemyMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("Rocket Escort 2",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "ARocketTruck",
+                "ARocketTruck",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("Rocket Escort 3",
+            new List<string>() {
+                "SAAW",
+                "ERocketTruck",
+                "ERocketTruck",
+                "ERocketTruck",
+                "ERocketTruck"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("Arty Escort",
+            new List<string>() {
+                "enemyMBT1",
+                "enemyMBT1",
+                "Artillery",
+                "Artillery",
+                "Artillery",
+                "Artillery",
+                "enemyMBT1",
+                "enemyMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("MAD4 Escort",
+            new List<string>() {
+                "enemyMBT1",
+                "enemyMBT1",
+                "MAD-4Radar",
+                "MAD-4Launcher",
+                "enemyMBT1",
+                "enemyMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("Phallanx Escort",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "SRADTruck",
+                "PhallanxTruck",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("IRAPC Escort",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "IRAPC",
+                "IRAPC",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
+        missionGroup.groundMissions.Add(new AIGroundMission("SAAW Escort",
+            new List<string>() {
+                "alliedMBT1",
+                "alliedMBT1",
+                "SAAW",
+                "alliedMBT1",
+                "alliedMBT1"
+            },
+            GroundSquad.GroundFormations.Column,
+            30
+            ));
+
         return missionGroup;
     }
 }
