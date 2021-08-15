@@ -87,11 +87,11 @@ public static class SettingsManager
         modSettings.CreateCustomLabel("Modifies the ASF to give them RWRs:");
         modSettings.CreateBoolSetting("(Default = true)", giveRWR_changed, settings.giveRWR);
 
-        minSpawnTime_changed += minSpawnTime_Setting;
+        minGroundSpawnTime_changed += minGroundSpawnTime_Setting;
         modSettings.CreateCustomLabel("Minimum Ground Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 0 minute)", minGroundSpawnTime_changed, settings.minGroundSpawnTime, 0, 60);
 
-        maxSpawnTime_changed += maxSpawnTime_Setting;
+        maxGroundSpawnTime_changed += maxGroundSpawnTime_Setting;
         modSettings.CreateCustomLabel("Maxium Ground Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 1 minutes)", maxGroundSpawnTime_changed, settings.maxGroundSpawnTime, 0, 60);
 
