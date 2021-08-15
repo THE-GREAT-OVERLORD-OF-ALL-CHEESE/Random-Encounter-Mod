@@ -165,9 +165,10 @@ public class RandomEncounterMod : VTOLMOD
                 SpawnManager.missions = JsonConvert.DeserializeObject<AIMissionGroup>(temp);
                 Debug.Log("Loaded: " + address + @"\enemyForces.json");
             }
-            catch
+            catch (Exception exception)
             {
-                Debug.Log("no json found, making one");
+                Debug.Log(exception.Message);
+                Debug.Log("json not found or invalid, making new one");
                 SpawnManager.missions = DefaultMissions.GenerateDefaultMissions();
                 SaveMissionGroupToFile();
             }

@@ -25,8 +25,9 @@ public static class SpawnManager
         spawnCooldown -= deltaTime;
         if (activeForces.Count < GetMaxAircraft() && spawnCooldown < 0)
         {
-            spawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minSpawnTime * 60, SettingsManager.settings.maxSpawnTime * 60);
-            SpawnRandomAirGroup();
+            if (SpawnRandomAirGroup()) {
+                spawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minSpawnTime * 60, SettingsManager.settings.maxSpawnTime * 60);
+            }
         }
 
         aGroundSpawnCooldown -= deltaTime;
@@ -98,27 +99,35 @@ public static class SpawnManager
         Debug.Log("Ground force " + force.mission.missionName + " has been removed.");
     }
 
-    private static void SpawnRandomAirGroup()
+    private static bool SpawnRandomAirGroup()
     {
         if (RandomEncounterMod.instance.mpMode && RandomEncounterMod.instance.host == false)
         {
-            return;
+            return false;
         }
 
         if (missions.missions.Count > 0)
         {
             AIMission mission = missions.missions[UnityEngine.Random.Range(0, missions.missions.Count)];
 
+            if (IsMissionValid(mission) == false)
+            {
+                return false;
+            }
+            else
+            {
+                Debug.Log("Spawning the force " + mission.missionName + " which is going to carry out its mission: " + mission.missionType.ToString());
 
-            Debug.Log("Spawning the force " + mission.missionName + " which is going to carry out its mission: " + mission.missionType.ToString());
-
-            GameObject forceObject = new GameObject();
-            ForceManager force = forceObject.AddComponent<ForceManager>();
-            force.SetUp(mission);
+                GameObject forceObject = new GameObject();
+                ForceManager force = forceObject.AddComponent<ForceManager>();
+                force.SetUp(mission);
+                return true;
+            }
         }
         else
         {
             Debug.Log("No forces are available, cannot spawn enemy forces aircraft.");
+            return false;
         }
     }
 
@@ -145,6 +154,24 @@ public static class SpawnManager
         else
         {
             Debug.Log("No forces are available, cannot spawn enemy ground forces.");
+        }
+    }
+
+    public static bool IsMissionValid(AIMission mission) {
+        switch (mission.missionType) {
+            case AIMissionType.Bombing:
+                return MissionPointManager.bombWaypoints != null && MissionPointManager.bombWaypoints.Count() > 0;
+            case AIMissionType.Strike:
+                return MissionPointManager.strikeWaypoints != null && MissionPointManager.strikeWaypoints.Count() > 0;
+            case AIMissionType.CAP:
+                return MissionPointManager.CAPWaypoints != null && MissionPointManager.CAPWaypoints.Count() > 0;
+            case AIMissionType.Recon:
+                return MissionPointManager.reconWaypoints != null && MissionPointManager.reconWaypoints.Count() > 0;
+            case AIMissionType.Landing:
+                return MissionPointManager.landingWaypoints != null && MissionPointManager.landingWaypoints.Count() > 0 &&
+                    MissionPointManager.eGroundRdvWaypoint != null && MissionPointManager.eGroundRdvWaypoint.Count() > 0;
+            default:
+                return false;
         }
     }
 

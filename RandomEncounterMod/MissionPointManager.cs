@@ -54,6 +54,9 @@ public static class MissionPointManager
                 case "recon":
                     reconWaypoints.Add(waypoint.GetTransform());
                     break;
+                case "landing":
+                    reconWaypoints.Add(waypoint.GetTransform());
+                    break;
 
                 case "a_gnd_spawn":
                     aGroundSpawnWaypoints.Add(waypoint);
@@ -76,6 +79,7 @@ public static class MissionPointManager
                 strikeWaypoints.Add(airport.transform);
                 CAPWaypoints.Add(airport.transform);
                 reconWaypoints.Add(airport.transform);
+                landingWaypoints.Add(airport.transform);
             }
         }
 
@@ -109,6 +113,11 @@ public static class MissionPointManager
     public static Vector3D GetRandomReconPoint()
     {
         return VTMapManager.WorldToGlobalPoint(reconWaypoints[Random.Range(0, reconWaypoints.Count)].position);
+    }
+
+    public static Vector3D GetRandomLandingPoint()
+    {
+        return VTMapManager.WorldToGlobalPoint(landingWaypoints[Random.Range(0, landingWaypoints.Count)].position);
     }
 
     public static Waypoint GetRandomGndSpawnPoint(Teams team)

@@ -50,7 +50,8 @@ public class AITask_RTB : AITask
         return true;
     }
 
-    public override void AgentUpdateTask(ForceAircraft aircraft) {
+    public override void AgentUpdateTask(float deltaTime, ForceAircraft aircraft) {
+        base.AgentUpdateTask(deltaTime, aircraft);
         Vector3 offset = VTMapManager.GlobalToWorldPoint(objectivePos) - aircraft.transform.position;
         offset.y = 0;
         if (offset.magnitude < 5000 && aircraft.health.normalizedHealth > 0) {

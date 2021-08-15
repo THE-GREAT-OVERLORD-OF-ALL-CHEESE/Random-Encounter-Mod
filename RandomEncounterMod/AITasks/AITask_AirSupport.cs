@@ -33,9 +33,9 @@ public class AITask_AirSupport : AITask
         aircraft.aircraft.SetEngageEnemies(true);
     }
 
-    public override void AgentUpdateTask(ForceAircraft aircraft)
+    public override void AgentUpdateTask(float deltaTime, ForceAircraft aircraft)
     {
-        base.AgentUpdateTask(aircraft);
+        base.AgentUpdateTask(deltaTime, aircraft);
         if (taskAircraft.Count() == aircraft.force.aircrafts.Count()) {
             supportComplete = true;
         }

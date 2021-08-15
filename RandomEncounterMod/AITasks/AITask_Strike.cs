@@ -41,9 +41,9 @@ public class AITask_Strike : AITask
             }
         }
     }
-    public override void UpdateTask()
+    public override void UpdateTask(float deltaTime)
     {
-        base.UpdateTask();
+        base.UpdateTask(deltaTime);
         if (taskAircraft.Count() > 0)
         {
             strikeTimer -= Time.fixedDeltaTime;

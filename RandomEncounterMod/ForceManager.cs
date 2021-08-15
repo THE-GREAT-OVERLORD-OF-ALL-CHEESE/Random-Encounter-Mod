@@ -137,6 +137,13 @@ public class ForceManager : MonoBehaviour
                 tasks.Add(new AITask_CAP(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
+            case AIMissionType.Landing:
+                missionTgt = MissionPointManager.GetRandomLandingPoint();
+                tasks.Add(new AITask_FlyToObjective(this, missionTgt));
+                tasks.Add(new AITask_Landing(this, missionTgt));
+                tasks.Add(new AITask_AirSupport(this, missionTgt));
+                tasks.Add(new AITask_RTB(this));
+                break;
             default:
                 tasks.Add(new AITask_RTB(this));
                 break;
@@ -145,7 +152,7 @@ public class ForceManager : MonoBehaviour
 
     public void FixedUpdate() {
         foreach (AITask task in tasks) {
-            task.UpdateTask();
+            task.UpdateTask(Time.fixedDeltaTime);
         }
     }
 

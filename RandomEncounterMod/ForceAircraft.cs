@@ -86,7 +86,7 @@ public class ForceAircraft : MonoBehaviour
             {
                 if (currentTask.TaskStatus(this))
                 {
-                    currentTask.AgentUpdateTask(this);
+                    currentTask.AgentUpdateTask(Time.fixedDeltaTime, this);
                 }
                 else
                 {

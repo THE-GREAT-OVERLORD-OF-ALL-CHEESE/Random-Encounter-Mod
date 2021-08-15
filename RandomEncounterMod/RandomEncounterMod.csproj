@@ -75,6 +75,7 @@
     <Compile Include="AircraftLoadout.cs" />
     <Compile Include="AITasks\AITask.cs" />
     <Compile Include="AITasks\AITask_CAP.cs" />
+    <Compile Include="AITasks\AITask_Landing.cs" />
     <Compile Include="AITasks\AITask_Strike.cs" />
     <Compile Include="AITasks\AITask_FlyToObjective.cs" />
     <Compile Include="AITasks\AITask_Bomb.cs" />
@@ -94,8 +95,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST "C:\Program Files (x86)\Steam\steamapps\common\VTOL VR\VTOLVR_ModLoader\VTOLVR-ModLoader.exe" (
-copy "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\VTOL VR\VTOLVR_ModLoader\projects\My Mods\Random Encounter Mod\Builds\RandomEncounterMod.dll"
-)</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\VTOL VR\VTOLVR_ModLoader\projects\My Mods\Random Encounter Mod\Builds\RandomEncounterMod.dll"</PostBuildEvent>
   </PropertyGroup>
 </Project>

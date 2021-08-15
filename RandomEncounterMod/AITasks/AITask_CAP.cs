@@ -33,9 +33,9 @@ public class AITask_CAP : AITask
         aircraft.aircraft.SetEngageEnemies(true);
     }
 
-    public override void UpdateTask()
+    public override void UpdateTask(float deltaTime)
     {
-        base.UpdateTask();
+        base.UpdateTask(deltaTime);
         if (taskAircraft.Count() > 0) {
             capTimer -= Time.fixedDeltaTime;
         }

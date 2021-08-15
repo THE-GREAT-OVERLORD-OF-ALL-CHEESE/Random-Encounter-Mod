@@ -30,12 +30,12 @@ public class AITask
         return false;
     }
 
-    public virtual void UpdateTask()
+    public virtual void UpdateTask(float deltaTime)
     {
 
     }
 
-    public virtual void AgentUpdateTask(ForceAircraft aircraft)
+    public virtual void AgentUpdateTask(float deltaTime, ForceAircraft aircraft)
     {
 
     }

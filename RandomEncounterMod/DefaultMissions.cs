@@ -21,7 +21,7 @@ public static class DefaultMissions
         missionGroup.missions.Add(new AIMission("MQ-31 LR Recon",
             AIMissionType.Recon,
             new List<AircraftLoadout>() {
-                new AircraftLoadout("MQ-31", new string[]{ "mq31-46lt", "mq31-46lt"})
+                new AircraftLoadout("MQ-31", new string[]{ "mq31-46lt", "mq31-46lt" })
             },
             5000,
             200));
@@ -225,6 +225,30 @@ public static class DefaultMissions
            3500,
            200));
 
+        missionGroup.missions.Add(new AIMission("3x GAV-25 Strikers w/ 2x ASF-30 Escort",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "asf-srmx1", "asf_mrmRail", "asf_mrmRail", "asf_mrmDrop", "asf_mrmDrop", "asf_mrmRail", "asf_mrmRail", "asf-srmx1", "asf-srmx1" }),
+                new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "asf-srmx1", "asf_mrmRail", "asf_mrmRail", "asf_mrmDrop", "asf_mrmDrop", "asf_mrmRail", "asf_mrmRail", "asf-srmx1", "asf-srmx1" })
+                },
+           1000,
+           200));
+
+        missionGroup.missions.Add(new AIMission("3x GAV-25 Strikers w/ 2x ASF-33 Escort",
+           AIMissionType.Strike,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("GAV-25", new string[] { "gav_gun", "gma-14x3", "wr-25", "wr-25", "gma-6x2", "gma-6x2", "wr-25", "wr-25", "gma-14x3"}),
+                new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "", "" }),
+                new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "", "" })
+                },
+           1000,
+           200));
+
         //rebel strike
         missionGroup.missions.Add(new AIMission("2x Rebel AV-42C Strikers",
            AIMissionType.Strike,
@@ -312,6 +336,30 @@ public static class DefaultMissions
            3500,
            250));
 
+        missionGroup.missions.Add(new AIMission("ASF-30 w/ UCAV Wingmen",
+           AIMissionType.CAP,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "asf-srmx1", "asf_mrmRail", "asf_mrmRail", "asf_mrmDrop", "asf_mrmDrop", "asf_mrmRail", "asf_mrmRail", "asf-srmx1", "asf-srmx1" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+           },
+           3500,
+           250));
+
+        missionGroup.missions.Add(new AIMission("ASF-33 w/ UCAV Wingmen",
+           AIMissionType.CAP,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "", "" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+                new AircraftLoadout("AIUCAV", new string[] { "eucav_gun", "eucav_hellfire",  "eucav_hellfire", "eucav_hellfire", "eucav_hellfire" }),
+           },
+           3500,
+           250));
+
         //rebel CAP
         missionGroup.missions.Add(new AIMission("2x Rebel AV-42C CAP",
            AIMissionType.CAP,
@@ -321,7 +369,6 @@ public static class DefaultMissions
            },
            3500,
            250));
-        
 
         missionGroup.missions.Add(new AIMission("2x Rebel F/A-26B CAP",
            AIMissionType.CAP,
@@ -332,6 +379,35 @@ public static class DefaultMissions
            3500,
            250));
 
+        //landing missions
+        missionGroup.missions.Add(new AIMission("2x AV-42 Landing",
+           AIMissionType.Landing,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("AV-42CAI", new string[] { "m230", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" }),
+                new AircraftLoadout("AV-42CAI", new string[] { "m230", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" })
+           },
+           3500,
+           250));
+
+        missionGroup.missions.Add(new AIMission("AV-42 Landing w/ ASF-30 Escort",
+           AIMissionType.Landing,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("AV-42CAI", new string[] { "m230", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" }),
+                new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "asf-srmx1", "asf_mrmRail", "asf_mrmRail", "asf_mrmDrop", "asf_mrmDrop", "asf_mrmRail", "asf_mrmRail", "asf-srmx1", "asf-srmx1" }),
+                new AircraftLoadout("ASF-30", new string[] { "asf30_gun", "asf-srmx1", "asf-srmx1", "asf_mrmRail", "asf_mrmRail", "asf_mrmDrop", "asf_mrmDrop", "asf_mrmRail", "asf_mrmRail", "asf-srmx1", "asf-srmx1" })
+           },
+           3500,
+           250));
+
+        missionGroup.missions.Add(new AIMission("AV-42 Landing w/ ASF-33 Escort",
+           AIMissionType.Landing,
+           new List<AircraftLoadout>() {
+                new AircraftLoadout("AV-42CAI", new string[] { "m230", "hellfirex4", "h70-4x4", "h70-4x4", "hellfirex4", "", "" }),
+                new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "", "" }),
+                new AircraftLoadout("ASF-33", new string[] { "af_gun", "asf_mrmx6", "asf_srmx2Left", "asf_srmx2Left", "", "" })
+           },
+           3500,
+           250));
 
         //ground units
         missionGroup.groundMissions.Add(new AIGroundMission("4x Tanks",
