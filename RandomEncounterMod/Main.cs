@@ -86,7 +86,9 @@ public class RandomEncounterMod : VTOLMOD
 
         SpawnManager.mapRadius = VTMapManager.fetch.map.mapSize * 1500;
         MPCheck();
-        SpawnManager.spawnCooldown = 0;
+        SpawnManager.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
+        SpawnManager.eGroundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
+        SpawnManager.aGroundSpawnCooldown = 0; //Set allied ground units to spawn immediately
 
         MissionPointManager.FindAllMissionPoints();
     }
