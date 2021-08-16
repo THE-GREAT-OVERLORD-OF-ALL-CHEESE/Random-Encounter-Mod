@@ -15,6 +15,7 @@ public class RandomEncounterSettings
 {
     public float minSpawnTime = 1;
     public float maxSpawnTime = 3;
+    public float delaySpawnTime = 2;
 
     public int maxActiveForces = 3;
 
@@ -25,6 +26,7 @@ public class RandomEncounterSettings
 
     public float minGroundSpawnTime = 1;
     public float maxGroundSpawnTime = 3;
+    public float delayGroundSpawnTime = 2;
 
     public int maxActiveGroundForces = 5;
 }
@@ -39,6 +41,7 @@ public static class SettingsManager
 
     public static UnityAction<float> minSpawnTime_changed;
     public static UnityAction<float> maxSpawnTime_changed;
+    public static UnityAction<float> delaySpawnTime_changed;
 
     public static UnityAction<int> maxActiveForces_changed;
 
@@ -49,6 +52,7 @@ public static class SettingsManager
 
     public static UnityAction<float> minGroundSpawnTime_changed;
     public static UnityAction<float> maxGroundSpawnTime_changed;
+    public static UnityAction<float> delayGroundSpawnTime_changed;
 
     public static UnityAction<int> maxActiveGroundForces_changed;
 
@@ -71,6 +75,10 @@ public static class SettingsManager
         modSettings.CreateCustomLabel("Maxium Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 3 minutes)", maxSpawnTime_changed, settings.maxSpawnTime, 0, 60);
 
+        delaySpawnTime_changed += delaySpawnTime_Setting;
+        modSettings.CreateCustomLabel("Delay Spawn Time:");
+        modSettings.CreateFloatSetting("(Default = 2 minutes)", delaySpawnTime_changed, settings.delaySpawnTime, 0, 60);
+
         maxActiveForces_changed += maxActiveForces_Setting;
         modSettings.CreateCustomLabel("Maximum Active Air Forces:");
         modSettings.CreateIntSetting("(Default = 3 forces)", maxActiveForces_changed, settings.maxActiveForces, 0, 10);
@@ -87,13 +95,17 @@ public static class SettingsManager
         modSettings.CreateCustomLabel("Modifies the ASF to give them RWRs:");
         modSettings.CreateBoolSetting("(Default = true)", giveRWR_changed, settings.giveRWR);
 
-        minSpawnTime_changed += minSpawnTime_Setting;
+        minGroundSpawnTime_changed += minGroundSpawnTime_Setting;
         modSettings.CreateCustomLabel("Minimum Ground Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 0 minute)", minGroundSpawnTime_changed, settings.minGroundSpawnTime, 0, 60);
 
-        maxSpawnTime_changed += maxSpawnTime_Setting;
+        maxGroundSpawnTime_changed += maxGroundSpawnTime_Setting;
         modSettings.CreateCustomLabel("Maxium Ground Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 1 minutes)", maxGroundSpawnTime_changed, settings.maxGroundSpawnTime, 0, 60);
+
+        delaySpawnTime_changed += delayGroundSpawnTime_Setting;
+        modSettings.CreateCustomLabel("Delay Ground Spawn Time:");
+        modSettings.CreateFloatSetting("(Default = 2 minutes)", delayGroundSpawnTime_changed, settings.delayGroundSpawnTime, 0, 60);
 
         maxActiveForces_changed += maxActiveForces_Setting;
         modSettings.CreateCustomLabel("Maximum Active Enemy Ground Forces:");
@@ -167,7 +179,13 @@ public static class SettingsManager
 
     public static void maxSpawnTime_Setting(float newval)
     {
-        settings.maxSpawnTime = newval;
+        settings.delaySpawnTime = newval;
+        settingsChanged = true;
+    }
+
+    public static void delaySpawnTime_Setting(float newval)
+    {
+        settings.delaySpawnTime = newval;
         settingsChanged = true;
     }
 
@@ -205,6 +223,12 @@ public static class SettingsManager
     public static void maxGroundSpawnTime_Setting(float newval)
     {
         settings.maxGroundSpawnTime = newval;
+        settingsChanged = true;
+    }
+
+    public static void delayGroundSpawnTime_Setting(float newval)
+    {
+        settings.delayGroundSpawnTime = newval;
         settingsChanged = true;
     }
 
