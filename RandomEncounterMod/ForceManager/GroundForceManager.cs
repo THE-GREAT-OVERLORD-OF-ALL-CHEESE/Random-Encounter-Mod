@@ -26,7 +26,7 @@ public class GroundForceManager : MonoBehaviour
 
     public void SetUp(AIGroundMission newMission, Teams team, Vector3 position) {
         this.team = team;
-        SpawnManager.AddGroundForce(this, team);
+        //SpawnManager.AddGroundForce(this, team);
 
         mission = newMission;
 
@@ -70,7 +70,7 @@ public class GroundForceManager : MonoBehaviour
             if (RandomEncounterMod.instance.mpMode)
             {
                 Debug.Log("MP is enabled, networking this vehicle!");
-                RandomEncounterMod.instance.MPSetUpAircraft(actor);
+                //RandomEncounterMod.instance.MPSetUpAircraft(actor);
             }
         }
 
@@ -130,7 +130,7 @@ public class GroundForceManager : MonoBehaviour
     }
 
     private void OnDestroy() {
-        SpawnManager.RemoveGroundForce(this, team);
+        //SpawnManager.RemoveGroundForce(this, team);
         foreach (GroundUnitSpawn spawn in spawns)
         {
             if (spawn != null)

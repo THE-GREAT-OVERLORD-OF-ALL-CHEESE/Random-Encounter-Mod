@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ForceAircraft : MonoBehaviour
+public class ForceUnit_Aircraft : ForceUnit
 {
-    public ForceManager force;
+    public ForceManager_Aircraft forceAircraft;
 
     public AIAircraftSpawn aircraft;
     public AIPilot pilot;
@@ -30,12 +30,7 @@ public class ForceAircraft : MonoBehaviour
     public int currentTaskID;
     public AITask currentTask;
 
-    private void Awake()
-    {
-        //SetUp();
-    }
-
-    private void SetUp() {
+    protected override void SetUp() {
         aircraft = GetComponent<AIAircraftSpawn>();
         pilot = GetComponent<AIPilot>();
         rb = GetComponent<Rigidbody>();
@@ -57,11 +52,9 @@ public class ForceAircraft : MonoBehaviour
         health.OnDeath.AddListener(OnDeath);
     }
 
-    public void SetForce(ForceManager force) {
-        SetUp();
-
-        this.force = force;
-        force.AddAircraft(this);
+    public override void SetForce(ForceManager force) {
+        base.SetForce(force);
+        forceAircraft = (ForceManager_Aircraft)force;
 
         gearAnimator?.RetractImmediate();
         tailHook?.RetractHook();
@@ -73,6 +66,13 @@ public class ForceAircraft : MonoBehaviour
         kPlane.SetToKinematic();
 
         fuelTank?.SetNormFuel(1);
+
+        rb.velocity = transform.forward * forceAircraft.mission.speed;
+        aircraft.aiPilot.navSpeed = forceAircraft.mission.speed;
+        aircraft.aiPilot.defaultAltitude = forceAircraft.mission.altitude;
+        //ai.aircraft.OnPreSpawnUnit();
+        kPlane.SetToKinematic();
+        kPlane.SetSpeed(forceAircraft.mission.speed);
     }
 
     private void FixedUpdate() {
@@ -80,7 +80,7 @@ public class ForceAircraft : MonoBehaviour
     }
 
     private void AIUpdate() {
-        if (currentTaskID < force.tasks.Count())
+        if (currentTaskID < forceAircraft.tasks.Count())
         {
             if (doingTask)
             {
@@ -91,7 +91,7 @@ public class ForceAircraft : MonoBehaviour
                 else
                 {
                     currentTask.EndTask(this);
-                    Debug.Log(gameObject.name + " of force " + force.mission.missionName + " completed task task " + currentTask.taskName + ", id: " + currentTaskID);
+                    Debug.Log(gameObject.name + " of force " + forceAircraft.mission.missionName + " completed task task " + currentTask.taskName + ", id: " + currentTaskID);
                     currentTask = null;
                     doingTask = false;
                     currentTaskID++;
@@ -99,15 +99,15 @@ public class ForceAircraft : MonoBehaviour
             }
             else {
                 doingTask = true;
-                currentTask = force.tasks[currentTaskID];
+                currentTask = forceAircraft.tasks[currentTaskID];
                 currentTask.StartTask(this);
-                Debug.Log(gameObject.name + " of force " + force.mission.missionName + " starting task " + currentTask.taskName + ", id: " + currentTaskID);
+                Debug.Log(gameObject.name + " of force " + forceAircraft.mission.missionName + " starting task " + currentTask.taskName + ", id: " + currentTaskID);
             }
         }
     }
 
-    private void OnDeath() {
-        force.RemoveAircraft(this);
+    protected override void OnDeath() {
+        base.OnDeath();
         Destroy(aircraft.unitSpawner.gameObject);
     }
 }

@@ -7,25 +7,25 @@ using UnityEngine;
 
 public class AITask
 {
-    public ForceManager force;
+    public ForceManager_Aircraft force;
 
-    public List<ForceAircraft> taskAircraft;
+    public List<ForceUnit_Aircraft> taskAircraft;
 
     public string taskName;
 
-    public AITask(ForceManager force) {
+    public AITask(ForceManager_Aircraft force) {
         this.force = force;
-        taskAircraft = new List<ForceAircraft>();
+        taskAircraft = new List<ForceUnit_Aircraft>();
         taskName = "default task name";
 
         Debug.Log("Setup AITask");
     } 
 
-    public virtual void StartTask(ForceAircraft aircraft) {
+    public virtual void StartTask(ForceUnit_Aircraft aircraft) {
         taskAircraft.Add(aircraft);
     }
 
-    public virtual bool TaskStatus(ForceAircraft aircraft)
+    public virtual bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return false;
     }
@@ -35,12 +35,12 @@ public class AITask
 
     }
 
-    public virtual void AgentUpdateTask(float deltaTime, ForceAircraft aircraft)
+    public virtual void AgentUpdateTask(float deltaTime, ForceUnit_Aircraft aircraft)
     {
 
     }
 
-    public virtual void EndTask(ForceAircraft aircraft)
+    public virtual void EndTask(ForceUnit_Aircraft aircraft)
     {
         taskAircraft.Remove(aircraft);
     }

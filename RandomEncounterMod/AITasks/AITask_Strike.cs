@@ -11,7 +11,7 @@ public class AITask_Strike : AITask
     public Vector3D objectivePos;
     public float strikeTimer = 300;
 
-    public AITask_Strike(ForceManager force, Vector3D missionTgt) : base(force)
+    public AITask_Strike(ForceManager_Aircraft force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -26,7 +26,7 @@ public class AITask_Strike : AITask
         Debug.Log("Setup AITask_Strike");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         aircraft.aircraft.SetOrbitNow(waypoint, 5000, 1000);
@@ -50,7 +50,7 @@ public class AITask_Strike : AITask
         }
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return strikeTimer > 0;
     }

@@ -22,6 +22,11 @@ public class RandomEncounterMod : VTOLMOD
     public VTOLScenes currentScene;
     public bool akutan = false;
 
+    public AIFactionMissions allMissions;
+
+    public FactionManager allied;
+    public FactionManager enemy;
+
     public override void ModLoaded()
     {
         HarmonyInstance harmony = HarmonyInstance.Create("cheese.randomEncounters");
@@ -37,12 +42,9 @@ public class RandomEncounterMod : VTOLMOD
 
         SettingsManager.SetupSettingsMenu(this);
 
-        SpawnManager.missions = new AIMissionGroup();
+        allied = new FactionManager();
+        enemy = new FactionManager();
         LoadMissionGroupFromFile();
-
-        SpawnManager.activeForces = new List<ForceManager>();
-        SpawnManager.aActiveGroundForces = new List<GroundForceManager>();
-        SpawnManager.eActiveGroundForces = new List<GroundForceManager>();
     }
 
     private void OnApplicationQuit()
@@ -84,12 +86,11 @@ public class RandomEncounterMod : VTOLMOD
 
         LoadMissionGroupFromFile();
 
-        SpawnManager.mapRadius = VTMapManager.fetch.map.mapSize * 1500;
-        MPCheck();
-        SpawnManager.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
-        SpawnManager.eGroundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
-        SpawnManager.aGroundSpawnCooldown = 0; //Set allied ground units to spawn immediately
-        Debug.Log("Set the Initial delay to... Air: " + SpawnManager.spawnCooldown + ", Ground: " + SpawnManager.eGroundSpawnCooldown);
+        allied.mapRadius = VTMapManager.fetch.map.mapSize * 1500;
+
+        allied.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
+        allied.groundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
+        Debug.Log("Set the Initial delay to... Air: " + allied.spawnCooldown + ", Ground: " + allied.groundSpawnCooldown);
 
         MissionPointManager.FindAllMissionPoints();
     }
@@ -106,34 +107,9 @@ public class RandomEncounterMod : VTOLMOD
     {
         if ((currentScene == VTOLScenes.Akutan || currentScene == VTOLScenes.CustomMapBase || currentScene == VTOLScenes.CustomMapBase_OverCloud))
         {
-            SpawnManager.SpawnerUpdate(Time.fixedDeltaTime);
+            allied.SpawnerUpdate(Time.fixedDeltaTime);
+            enemy.SpawnerUpdate(Time.fixedDeltaTime);
         }
-    }
-
-    private void MPCheck()
-    {
-        foreach (Mod mod in VTOLAPI.GetUsersMods())
-        {
-            if (mod.name == "Multiplayer")
-            {
-                Debug.Log("Random encounters has detected MP, enbling MP mode");
-                mpMode = true;
-                HostCheck();
-                break;
-            }
-        }
-        Debug.Log("The MP mod is not installed.");
-    }
-
-    private void HostCheck()
-    {
-        host = Networker.isHost;
-    }
-
-    public void MPSetUpAircraft(Actor actor)
-    {
-        AIManager.setupAIAircraft(actor);
-        AIManager.TellClientAboutAI(new Steamworks.CSteamID(0));
     }
 
     public void SaveMissionGroupToFile()
@@ -144,7 +120,7 @@ public class RandomEncounterMod : VTOLMOD
         if (Directory.Exists(address))
         {
             Debug.Log("Saving missions!");
-            File.WriteAllText(address + @"\enemyForces.json", JsonConvert.SerializeObject(SpawnManager.missions));
+            File.WriteAllText(address + @"\forces.json", JsonConvert.SerializeObject(allMissions));
         }
         else
         {
@@ -162,17 +138,19 @@ public class RandomEncounterMod : VTOLMOD
             Debug.Log(address + " exists!");
             try
             {
-                Debug.Log("Checking for: " + address + @"\enemyForces.json");
-                string temp = File.ReadAllText(address + @"\enemyForces.json");
+                Debug.Log("Checking for: " + address + @"\forces.json");
+                string temp = File.ReadAllText(address + @"\forces.json");
 
-                SpawnManager.missions = JsonConvert.DeserializeObject<AIMissionGroup>(temp);
-                Debug.Log("Loaded: " + address + @"\enemyForces.json");
+                allMissions = JsonConvert.DeserializeObject<AIFactionMissions>(temp);
+                Debug.Log("Loaded: " + address + @"\forces.json");
             }
             catch (Exception exception)
             {
                 Debug.Log(exception.Message);
                 Debug.Log("json not found or invalid, making new one");
-                SpawnManager.missions = DefaultMissions.GenerateDefaultMissions();
+                allMissions = new AIFactionMissions();
+                allMissions.alliedMissions = DefaultMissions.GenerateDefaultAlliedMissions();
+                allMissions.alliedMissions = DefaultMissions.GenerateDefaultAlliedMissions();
                 SaveMissionGroupToFile();
             }
         }
@@ -180,5 +158,8 @@ public class RandomEncounterMod : VTOLMOD
         {
             Debug.Log("Mod folder not found?");
         }
+
+        allied.missions = allMissions.alliedMissions;
+        enemy.missions = allMissions.enemyMissions;
     }
 }

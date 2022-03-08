@@ -34,8 +34,9 @@
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\VTOLVR_Data\Managed\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\Dependencies\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\VTOLVR_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\..\VTOLVR_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
@@ -68,10 +69,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIGroundMission.cs" />
-    <Compile Include="AIMission.cs" />
-    <Compile Include="AIMissionGroup.cs" />
-    <Compile Include="AIMissionType.cs" />
+    <Compile Include="AIMissions\AIFactionMissions.cs" />
+    <Compile Include="AIMissions\AIGroundMission.cs" />
+    <Compile Include="AIMissions\AIMission.cs" />
+    <Compile Include="AIMissions\AIMissionGroup.cs" />
+    <Compile Include="AIMissions\AIMissionType.cs" />
     <Compile Include="AircraftLoadout.cs" />
     <Compile Include="AITasks\AITask.cs" />
     <Compile Include="AITasks\AITask_CAP.cs" />
@@ -83,15 +85,18 @@
     <Compile Include="AITasks\AITask_Recon.cs" />
     <Compile Include="AITasks\AITask_RTB.cs" />
     <Compile Include="DefaultMissions.cs" />
-    <Compile Include="ForceAircraft.cs" />
-    <Compile Include="GroundForceManager.cs" />
-    <Compile Include="ForceManager.cs" />
+    <Compile Include="ForceManager\ForceUnit_Aircraft.cs" />
+    <Compile Include="ForceManager\ForceUnit.cs" />
+    <Compile Include="ForceManager\ForceManager_Aircraft.cs" />
+    <Compile Include="ForceManager\GroundForceManager.cs" />
+    <Compile Include="ForceManager\ForceManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MissionPointManager.cs" />
+    <Compile Include="MPUnitSpawnerManager.cs" />
     <Compile Include="Patches\Patch_ActorExtentions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsManager.cs" />
-    <Compile Include="SpawnManager.cs" />
+    <Compile Include="ForceManager\FactionManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

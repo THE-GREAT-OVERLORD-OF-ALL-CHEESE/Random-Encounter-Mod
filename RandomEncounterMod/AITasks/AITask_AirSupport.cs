@@ -11,7 +11,7 @@ public class AITask_AirSupport : AITask
     public Vector3D objectivePos;
     public bool supportComplete;
 
-    public AITask_AirSupport(ForceManager force, Vector3D missionTgt) : base(force)
+    public AITask_AirSupport(ForceManager_Aircraft force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -26,22 +26,22 @@ public class AITask_AirSupport : AITask
         Debug.Log("Setup AITask_AirSupport");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         aircraft.aircraft.SetOrbitNow(waypoint, 5000, force.mission.altitude);
         aircraft.aircraft.SetEngageEnemies(true);
     }
 
-    public override void AgentUpdateTask(float deltaTime, ForceAircraft aircraft)
+    public override void AgentUpdateTask(float deltaTime, ForceUnit_Aircraft aircraft)
     {
         base.AgentUpdateTask(deltaTime, aircraft);
-        if (taskAircraft.Count() == aircraft.force.aircrafts.Count()) {
+        if (taskAircraft.Count() == aircraft.force.units.Count()) {
             supportComplete = true;
         }
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return supportComplete == false;
     }

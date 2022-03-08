@@ -103,7 +103,7 @@ public static class SettingsManager
         modSettings.CreateCustomLabel("Maxium Ground Spawn Interval:");
         modSettings.CreateFloatSetting("(Default = 1 minutes)", maxGroundSpawnTime_changed, settings.maxGroundSpawnTime, 0, 60);
 
-        delaySpawnTime_changed += delayGroundSpawnTime_Setting;
+        delayGroundSpawnTime_changed += delayGroundSpawnTime_Setting;
         modSettings.CreateCustomLabel("Delay Ground Spawn Time:");
         modSettings.CreateFloatSetting("(Default = 2 minutes)", delayGroundSpawnTime_changed, settings.delayGroundSpawnTime, 0, 60);
 

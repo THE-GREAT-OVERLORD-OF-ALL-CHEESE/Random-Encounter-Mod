@@ -10,7 +10,7 @@ public class AITask_RTB : AITask
     public Waypoint waypoint;
     public Vector3D objectivePos;
 
-    public AITask_RTB(ForceManager force) : base(force)
+    public AITask_RTB(ForceManager_Aircraft force) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -18,8 +18,7 @@ public class AITask_RTB : AITask
         waypoint.SetTransform(waypointObject.transform);
 
 
-        Vector3D playerPos = SpawnManager.GetPlayerPosition();
-        objectivePos = new Vector3D(-Mathf.Sin(force.missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.x, 0, -Mathf.Cos(force.missionDirection * Mathf.Deg2Rad) * SpawnManager.GetTrafficRadius() + playerPos.z);
+        objectivePos = force.missionSpawn;
         waypoint.GetTransform().position = VTMapManager.GlobalToWorldPoint(objectivePos);
         Debug.Log("RTB pos: " + objectivePos.ToString());
 
@@ -28,7 +27,7 @@ public class AITask_RTB : AITask
         Debug.Log("Setup AITask_RTB");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         aircraft.aircraft.SetOrbitNow(waypoint, 1000, force.mission.altitude);
@@ -45,12 +44,12 @@ public class AITask_RTB : AITask
         aircraft.aircraft.SetEngageEnemies(false);
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return true;
     }
 
-    public override void AgentUpdateTask(float deltaTime, ForceAircraft aircraft) {
+    public override void AgentUpdateTask(float deltaTime, ForceUnit_Aircraft aircraft) {
         base.AgentUpdateTask(deltaTime, aircraft);
         Vector3 offset = VTMapManager.GlobalToWorldPoint(objectivePos) - aircraft.transform.position;
         offset.y = 0;

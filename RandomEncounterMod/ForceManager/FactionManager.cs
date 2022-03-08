@@ -5,22 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public static class SpawnManager
+public class FactionManager
 {
-    public static float spawnCooldown;
-    public static float aGroundSpawnCooldown;
-    public static float eGroundSpawnCooldown;
+    public float spawnCooldown;
+    public float groundSpawnCooldown;
+    public float shipSpawnCooldown;
 
-    public static float spawnRadius = 50000;//50000
-    public static float mapRadius;
+    public float spawnRadius = 50000;//50000
+    public float mapRadius;
 
-    public static AIMissionGroup missions;
+    public AIMissionGroup missions;
 
-    public static List<ForceManager> activeForces;
-    public static List<GroundForceManager> aActiveGroundForces;
-    public static List<GroundForceManager> eActiveGroundForces;
+    public List<ForceManager> activeForces;
+    public List<GroundForceManager> activeGroundForces;
+    public List<GroundForceManager> activeShipForces;
 
-    public static void SpawnerUpdate(float deltaTime)
+    public Vector3D mapCenter;
+    public List<Vector3D> planeSpawns;
+
+    public FactionManager()
+    {
+        missions = new AIMissionGroup();
+
+        activeForces = new List<ForceManager>();
+        activeGroundForces = new List<GroundForceManager>();
+        activeShipForces = new List<GroundForceManager>();
+    }
+
+    public void SpawnerUpdate(float deltaTime)
     {
         spawnCooldown -= deltaTime;
         if (activeForces.Count < GetMaxAircraft() && spawnCooldown < 0)
@@ -30,22 +42,15 @@ public static class SpawnManager
             }
         }
 
-        aGroundSpawnCooldown -= deltaTime;
-        if (aActiveGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && aGroundSpawnCooldown < 0 && MissionPointManager.aGroundSpawnWaypoints.Count > 0 && MissionPointManager.aGroundRdvWaypoint.Count > 0)
+        groundSpawnCooldown -= deltaTime;
+        if (activeGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && groundSpawnCooldown < 0 && MissionPointManager.aGroundSpawnWaypoints.Count > 0 && MissionPointManager.aGroundRdvWaypoint.Count > 0)
         {
-            aGroundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
+            groundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
             SpawnRandomGroundGroup(Teams.Allied);
-        }
-
-        eGroundSpawnCooldown -= deltaTime;
-        if (eActiveGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && eGroundSpawnCooldown < 0 && MissionPointManager.eGroundSpawnWaypoints.Count > 0 && MissionPointManager.eGroundRdvWaypoint.Count > 0)
-        {
-            eGroundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
-            SpawnRandomGroundGroup(Teams.Enemy);
         }
     }
 
-    public static float GetMaxAircraft()
+    public float GetMaxAircraft()
     {
         if (SettingsManager.settings.autoBalancing)
         {
@@ -63,43 +68,29 @@ public static class SpawnManager
         }
     }
 
-    public static void AddForce(ForceManager force)
+    public void AddForce(ForceManager force)
     {
         activeForces.Add(force);
     }
 
-    public static void RemoveForce(ForceManager force)
+    public void RemoveForce(ForceManager force)
     {
         activeForces.Remove(force);
-        Debug.Log("Force " + force.mission.missionName + " has been removed.");
+        Debug.Log("Force " + force.forceName + " has been removed.");
     }
 
-    public static void AddGroundForce(GroundForceManager force, Teams team)
+    public void AddGroundForce(GroundForceManager force)
     {
-        if (team == Teams.Allied)
-        {
-            aActiveGroundForces.Add(force);
-        }
-        else
-        {
-            eActiveGroundForces.Add(force);
-        }
+        activeGroundForces.Add(force);
     }
 
-    public static void RemoveGroundForce(GroundForceManager force, Teams team)
+    public void RemoveGroundForce(GroundForceManager force, Teams team)
     {
-        if (team == Teams.Allied)
-        {
-            aActiveGroundForces.Remove(force);
-        }
-        else
-        {
-            eActiveGroundForces.Remove(force);
-        }
+        activeGroundForces.Remove(force);
         Debug.Log("Ground force " + force.mission.missionName + " has been removed.");
     }
 
-    private static bool SpawnRandomAirGroup()
+    private bool SpawnRandomAirGroup()
     {
         if (RandomEncounterMod.instance.mpMode && RandomEncounterMod.instance.host == false)
         {
@@ -131,7 +122,7 @@ public static class SpawnManager
         }
     }
 
-    private static void SpawnRandomGroundGroup(Teams team)
+    private void SpawnRandomGroundGroup(Teams team)
     {
         if (RandomEncounterMod.instance.mpMode && RandomEncounterMod.instance.host == false)
         {
@@ -157,7 +148,7 @@ public static class SpawnManager
         }
     }
 
-    public static bool IsMissionValid(AIMission mission) {
+    public bool IsMissionValid(AIMission mission) {
         switch (mission.missionType) {
             case AIMissionType.Bombing:
                 return MissionPointManager.bombWaypoints != null && MissionPointManager.bombWaypoints.Count() > 0;
@@ -175,7 +166,7 @@ public static class SpawnManager
         }
     }
 
-    public static Vector3D GetPlayerPosition()
+    public Vector3D GetPlayerPosition()
     {
         if (RandomEncounterMod.instance.akutan == false)
         {
@@ -187,7 +178,7 @@ public static class SpawnManager
         }
     }
 
-    public static float GetTrafficRadius()
+    public float GetTrafficRadius()
     {
         if (RandomEncounterMod.instance.akutan == false)
         {
@@ -199,7 +190,7 @@ public static class SpawnManager
         }
     }
 
-    public static Vector3D PointInCruisingRadius(float alt)
+    public Vector3D PointInCruisingRadius(float alt)
     {
         Vector2 randomCircle = UnityEngine.Random.insideUnitCircle;
         Vector3D playerPos = GetPlayerPosition();
@@ -207,7 +198,7 @@ public static class SpawnManager
         return new Vector3D(randomCircle.x * GetTrafficRadius() + playerPos.x, alt, randomCircle.y * GetTrafficRadius() + playerPos.z); ;
     }
 
-    public static Vector3D PointOnCruisingRadius(float alt)
+    public Vector3D PointOnCruisingRadius(float alt)
     {
         float bearing = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
         Vector3D playerPos = GetPlayerPosition();
@@ -215,7 +206,7 @@ public static class SpawnManager
         return new Vector3D(Mathf.Sin(bearing) * GetTrafficRadius() + playerPos.x, alt, Mathf.Cos(bearing) * GetTrafficRadius() + playerPos.z);
     }
 
-    public static Vector3D PointOnMapRadius(float alt)
+    public Vector3D PointOnMapRadius(float alt)
     {
         float bearing = UnityEngine.Random.Range(0f, 360f) * Mathf.Deg2Rad;
         float mapRadius = VTMapManager.fetch.map.mapSize * 1500;
@@ -223,7 +214,7 @@ public static class SpawnManager
         return new Vector3D(Mathf.Sin(bearing) * mapRadius * 1.5f + mapRadius, alt, Mathf.Cos(bearing) * mapRadius * 1.5f + mapRadius);
     }
 
-    public static float DistanceFromOrigin(Vector3D otherPos)
+    public float DistanceFromOrigin(Vector3D otherPos)
     {
         Vector3D playerPos = GetPlayerPosition();
         playerPos.y = 0;

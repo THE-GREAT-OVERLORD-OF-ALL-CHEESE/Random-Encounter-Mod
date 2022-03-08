@@ -11,7 +11,7 @@ public class AITask_Landing : AITask
     public Vector3D objectivePos;
     public float strikeTimer = 300;
 
-    public AITask_Landing(ForceManager force, Vector3D missionTgt) : base(force)
+    public AITask_Landing(ForceManager_Aircraft force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -26,7 +26,7 @@ public class AITask_Landing : AITask
         Debug.Log("Setup AITask_Landing");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         aircraft.aircraft.LandAtWpt(waypoint);
@@ -42,7 +42,7 @@ public class AITask_Landing : AITask
         }
     }
 
-    public override void AgentUpdateTask(float deltaTime, ForceAircraft aircraft)
+    public override void AgentUpdateTask(float deltaTime, ForceUnit_Aircraft aircraft)
     {
         base.AgentUpdateTask(deltaTime, aircraft);
 
@@ -72,7 +72,7 @@ public class AITask_Landing : AITask
         }
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return (aircraft.pilot.commandState == AIPilot.CommandStates.Orbit || aircraft.pilot.commandState == AIPilot.CommandStates.Combat || aircraft.pilot.commandState == AIPilot.CommandStates.FollowLeader) == false;
     }

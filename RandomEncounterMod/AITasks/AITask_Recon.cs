@@ -11,7 +11,7 @@ public class AITask_Recon : AITask
     public Vector3D objectivePos;
     public float reconTimer;
 
-    public AITask_Recon(ForceManager force, Vector3D missionTgt) : base(force)
+    public AITask_Recon(ForceManager_Aircraft force, Vector3D missionTgt) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -27,7 +27,7 @@ public class AITask_Recon : AITask
         Debug.Log("Setup AITask_Recon");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         aircraft.aircraft.SetOrbitNow(waypoint, 5000, force.mission.altitude);
@@ -42,7 +42,7 @@ public class AITask_Recon : AITask
         }
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         return reconTimer > 0;
     }

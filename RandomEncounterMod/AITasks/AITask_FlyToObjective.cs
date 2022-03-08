@@ -10,7 +10,7 @@ public class AITask_FlyToObjective : AITask
     public Waypoint waypoint;
     public Vector3D objectivePos;
 
-    public AITask_FlyToObjective(ForceManager force, Vector3D objective) : base(force)
+    public AITask_FlyToObjective(ForceManager_Aircraft force, Vector3D objective) : base(force)
     {
         waypoint = new Waypoint();
         GameObject waypointObject = new GameObject();
@@ -25,7 +25,7 @@ public class AITask_FlyToObjective : AITask
         Debug.Log("Setup AITask_FlyToObjective");
     }
 
-    public override void StartTask(ForceAircraft aircraft)
+    public override void StartTask(ForceUnit_Aircraft aircraft)
     {
         base.StartTask(aircraft);
         if (taskAircraft.Count() > 1)
@@ -42,7 +42,7 @@ public class AITask_FlyToObjective : AITask
         aircraft.tilter?.SetTiltImmediate(90);
     }
 
-    public override bool TaskStatus(ForceAircraft aircraft)
+    public override bool TaskStatus(ForceUnit_Aircraft aircraft)
     {
         Vector3 offset = VTMapManager.GlobalToWorldPoint(objectivePos) - aircraft.transform.position;
         offset.y = 0;

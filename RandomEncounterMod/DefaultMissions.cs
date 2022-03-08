@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public static class DefaultMissions
 {
-    public static AIMissionGroup GenerateDefaultMissions() {
+    public static AIMissionGroup GenerateDefaultAlliedMissions() {
         AIMissionGroup missionGroup = new AIMissionGroup();
 
         //recon missions
