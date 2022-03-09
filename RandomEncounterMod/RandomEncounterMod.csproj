@@ -91,7 +91,7 @@
     <Compile Include="ForceManager\GroundForceManager.cs" />
     <Compile Include="ForceManager\ForceManager.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="MissionPointManager.cs" />
+    <Compile Include="MissionPoints.cs" />
     <Compile Include="MPUnitSpawnerManager.cs" />
     <Compile Include="Patches\Patch_ActorExtentions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

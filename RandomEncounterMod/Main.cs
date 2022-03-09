@@ -16,9 +16,6 @@ public class RandomEncounterMod : VTOLMOD
 {
     public static RandomEncounterMod instance;
 
-    public bool mpMode = false;
-    public bool host = false;
-
     public VTOLScenes currentScene;
     public bool akutan = false;
 
@@ -42,8 +39,8 @@ public class RandomEncounterMod : VTOLMOD
 
         SettingsManager.SetupSettingsMenu(this);
 
-        allied = new FactionManager();
-        enemy = new FactionManager();
+        allied = new FactionManager(Teams.Allied);
+        enemy = new FactionManager(Teams.Enemy);
         LoadMissionGroupFromFile();
     }
 
@@ -86,13 +83,14 @@ public class RandomEncounterMod : VTOLMOD
 
         LoadMissionGroupFromFile();
 
-        allied.mapRadius = VTMapManager.fetch.map.mapSize * 1500;
-
-        allied.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
-        allied.groundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
+        //allied.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
+        //allied.groundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
+        //enemy.spawnCooldown = SettingsManager.settings.delaySpawnTime * 60;
+        //enemy.groundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
         Debug.Log("Set the Initial delay to... Air: " + allied.spawnCooldown + ", Ground: " + allied.groundSpawnCooldown);
 
-        MissionPointManager.FindAllMissionPoints();
+        allied.StartSpawning();
+        enemy.StartSpawning();
     }
 
     private void Update() {
@@ -150,7 +148,7 @@ public class RandomEncounterMod : VTOLMOD
                 Debug.Log("json not found or invalid, making new one");
                 allMissions = new AIFactionMissions();
                 allMissions.alliedMissions = DefaultMissions.GenerateDefaultAlliedMissions();
-                allMissions.alliedMissions = DefaultMissions.GenerateDefaultAlliedMissions();
+                allMissions.enemyMissions = DefaultMissions.GenerateDefaultEnemyMissions();
                 SaveMissionGroupToFile();
             }
         }

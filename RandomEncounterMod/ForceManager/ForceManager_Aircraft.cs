@@ -17,60 +17,58 @@ public class ForceManager_Aircraft : ForceManager
     public Vector3D missionSpawn;
 
     public override void SetUp(FactionManager faction, AIMission newMission) {
-        base.SetUp(newMission);
+        base.SetUp(faction, newMission);
 
         aircrafts = new List<ForceUnit_Aircraft>();
         tasks = new List<AITask>();
 
-        missionSpawn = faction.planeSpawns[UnityEngine.Random.Range(0, faction.planeSpawns.Count)];
+        Debug.Log("Picking random spawn");
+        missionSpawn = VTMapManager.WorldToGlobalPoint(faction.missionPoints.spawnWaypoints[UnityEngine.Random.Range(0, faction.missionPoints.spawnWaypoints.Count)].position);
 
         mission = newMission;
 
-
-
-        Vector3D playerPos = faction.GetPlayerPosition();
-
+        Debug.Log("getting spawn info");
         Vector3D spawnPos3D = new Vector3D(missionSpawn.x, mission.altitude, missionSpawn.y);
-        Quaternion spawnRot = Quaternion.LookRotation((faction.mapCenter - missionSpawn).toVector3);
+        Quaternion spawnRot = Quaternion.LookRotation((faction.missionPoints.GetCenterPosition() - missionSpawn).toVector3);
         Debug.Log("Mission altitude: " + mission.altitude);
 
         foreach (AircraftLoadout aircraft in mission.aircraft) {
             Debug.Log("Spawning a " +  aircraft.aircraftName + " at pos: " + spawnPos3D.ToString());
-            MPUnitSpawnerManager.SpawnUnit(aircraft.aircraftName, this, MPUnitSpawnerManager.UnitType.Aircraft, spawnPos3D, spawnRot);
+            MPUnitSpawnerManager.SpawnUnit(aircraft.aircraftName, this, MPUnitSpawnerManager.UnitType.Aircraft, spawnPos3D, spawnRot, aircraft.hardpoints);
         }
 
         Vector3D missionTgt = new Vector3D();
 
         switch (mission.missionType) {
             case AIMissionType.Recon:
-                missionTgt = MissionPointManager.GetRandomReconPoint();
+                missionTgt = faction.missionPoints.GetRandomReconPoint();
                 tasks.Add(new AITask_FlyToObjective(this, missionTgt));
                 tasks.Add(new AITask_Recon(this, missionTgt));
                 tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.Bombing:
-                missionTgt = MissionPointManager.GetRandomBombingPoint();
+                missionTgt = faction.missionPoints.GetRandomBombingPoint();
                 tasks.Add(new AITask_FlyToObjective(this, missionTgt));
                 tasks.Add(new AITask_Bomb(this, missionTgt));
                 tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.Strike:
-                missionTgt = MissionPointManager.GetRandomStrikePoint();
+                missionTgt = faction.missionPoints.GetRandomStrikePoint();
                 tasks.Add(new AITask_FlyToObjective(this, missionTgt));
                 tasks.Add(new AITask_Strike(this, missionTgt));
                 tasks.Add(new AITask_AirSupport(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.CAP:
-                missionTgt = MissionPointManager.GetRandomCAPPoint();
+                missionTgt = faction.missionPoints.GetRandomCAPPoint();
                 tasks.Add(new AITask_FlyToObjective(this, missionTgt));
                 tasks.Add(new AITask_CAP(this, missionTgt));
                 tasks.Add(new AITask_RTB(this));
                 break;
             case AIMissionType.Landing:
-                missionTgt = MissionPointManager.GetRandomLandingPoint();
+                missionTgt = faction.missionPoints.GetRandomLandingPoint();
                 tasks.Add(new AITask_FlyToObjective(this, missionTgt));
                 tasks.Add(new AITask_Landing(this, missionTgt));
                 tasks.Add(new AITask_AirSupport(this, missionTgt));

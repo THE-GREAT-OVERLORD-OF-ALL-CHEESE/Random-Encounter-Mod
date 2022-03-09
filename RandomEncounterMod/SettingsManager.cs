@@ -15,7 +15,7 @@ public class RandomEncounterSettings
 {
     public float minSpawnTime = 1;
     public float maxSpawnTime = 3;
-    public float delaySpawnTime = 2;
+    public float delaySpawnTime = 0;
 
     public int maxActiveForces = 3;
 
@@ -26,7 +26,7 @@ public class RandomEncounterSettings
 
     public float minGroundSpawnTime = 1;
     public float maxGroundSpawnTime = 3;
-    public float delayGroundSpawnTime = 2;
+    public float delayGroundSpawnTime = 0;
 
     public int maxActiveGroundForces = 5;
 }

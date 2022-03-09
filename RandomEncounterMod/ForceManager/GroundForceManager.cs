@@ -67,11 +67,11 @@ public class GroundForceManager : MonoBehaviour
                 TargetManager.instance.RegisterActor(actor);
             }
 
-            if (RandomEncounterMod.instance.mpMode)
-            {
-                Debug.Log("MP is enabled, networking this vehicle!");
+            //if (RandomEncounterMod.instance.mpMode)
+            //{
+            //    Debug.Log("MP is enabled, networking this vehicle!");
                 //RandomEncounterMod.instance.MPSetUpAircraft(actor);
-            }
+            //}
         }
 
         //set up the S-400s with their radars
@@ -100,8 +100,8 @@ public class GroundForceManager : MonoBehaviour
 
         squad.formationType = mission.formation;
 
-        waypoint = MissionPointManager.GetRandomGndRdvPoint(team);
-        squad.MoveTo(waypoint.GetTransform());
+        //waypoint = MissionPointManager.GetRandomGndRdvPoint(team);
+        //squad.MoveTo(waypoint.GetTransform());
     }
 
     private void FixedUpdate() {

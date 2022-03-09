@@ -10,7 +10,7 @@ public class ForceUnit : MonoBehaviour
     public ForceManager force;
 
     protected virtual void SetUp() {
-
+        force = new ForceManager();
     }
 
     public virtual void SetForce(ForceManager force) {

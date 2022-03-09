@@ -18,7 +18,7 @@ public static class MPUnitSpawnerManager
         Sea
     }
 
-    public static void SpawnUnit(string unitName, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot)
+    public static void SpawnUnit(string unitName, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot, string[] loadout)
     {
         if (VTOLMPUtils.IsMultiplayer() && VTOLMPLobbyManager.isLobbyHost == false)
         {
@@ -41,14 +41,14 @@ public static class MPUnitSpawnerManager
             if (VTOLMPUtils.IsMultiplayer())
             {
                 Debug.Log("Network spawning a " + unitName + " at pos: " + pos.ToString());
-                VTOLMPUnitManager.instance.StartCoroutine(MPSpawnRoutine(unitSpawner, manager, type, pos, rot));
+                VTOLMPUnitManager.instance.StartCoroutine(MPSpawnRoutine(unitSpawner, manager, type, pos, rot, loadout));
             }
             else
             {
                 Debug.Log("Spawning a " + unitName + " at pos: " + pos.ToString());
                 GameObject aircraftObj = GameObject.Instantiate(UnitCatalogue.GetUnitPrefab(unitName), spawnPos, rot, null);
 
-                SetupUnit(unitSpawner, aircraftObj, manager, type, pos, rot);
+                SetupUnit(unitSpawner, aircraftObj, manager, type, pos, rot, loadout);
             }
         }
         else
@@ -57,7 +57,7 @@ public static class MPUnitSpawnerManager
         }
     }
 
-    public static IEnumerator MPSpawnRoutine(UnitSpawner spawner, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot)
+    public static IEnumerator MPSpawnRoutine(UnitSpawner spawner, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot, string[] loadout)
     {
         string resourcePath = UnitCatalogue.GetUnit(spawner.unitID).resourcePath;
         VTNetworkManager.NetInstantiateRequest req = VTNetworkManager.NetInstantiate(resourcePath, spawner.transform.position, spawner.transform.rotation, true);
@@ -67,20 +67,20 @@ public static class MPUnitSpawnerManager
         }
         GameObject obj = req.obj;
 
-        SetupUnit(spawner, obj, manager, type, pos, rot);
+        SetupUnit(spawner, obj, manager, type, pos, rot, loadout);
     }
 
-    public static void SetupUnit(UnitSpawner spawn, GameObject aircraftObj, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot)
+    public static void SetupUnit(UnitSpawner spawn, GameObject aircraftObj, ForceManager manager, UnitType type, Vector3D pos, Quaternion rot, string[] loadout)
     {
         switch (type)
         {
             case UnitType.Aircraft:
-                SetupAircraft(spawn, aircraftObj, manager, pos, rot);
+                SetupAircraft(spawn, aircraftObj, manager, pos, rot, loadout);
                 break;
         }
     }
 
-    public static void SetupAircraft(UnitSpawner spawn, GameObject aircraftObj, ForceManager manager, Vector3D pos, Quaternion rot)
+    public static void SetupAircraft(UnitSpawner spawn, GameObject aircraftObj, ForceManager manager, Vector3D pos, Quaternion rot, string[] hpLoadout)
     {
         Vector3 spawnPos = VTMapManager.GlobalToWorldPoint(pos);
         Quaternion spawnRot = rot;
@@ -129,7 +129,7 @@ public static class MPUnitSpawnerManager
 
         Debug.Log("setting up loadout");
         Loadout loadout = new Loadout();
-        loadout.hpLoadout = new string[0];
+        loadout.hpLoadout = hpLoadout;//set the correct loadout
         loadout.normalizedFuel = 1;
         loadout.cmLoadout = new int[] { 30, 30 };
         if (ai.wm)
@@ -137,14 +137,5 @@ public static class MPUnitSpawnerManager
             ai.wm.EquipWeapons(loadout);
         }
         aircraftSpawnerTraverse.Field("loadout").SetValue(loadout);
-
-        if (ai.pilot.actor.team == Teams.Enemy || false)
-        {
-            Debug.Log("forcing team to allied");
-
-            ai.pilot.actor.team = Teams.Allied;
-            TargetManager.instance.UnregisterActor(ai.pilot.actor);
-            TargetManager.instance.RegisterActor(ai.pilot.actor);
-        }
     }
 }

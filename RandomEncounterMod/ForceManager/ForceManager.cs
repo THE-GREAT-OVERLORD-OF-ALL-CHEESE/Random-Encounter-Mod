@@ -20,11 +20,6 @@ public class ForceManager : MonoBehaviour
         units = new List<ForceUnit>();
     }
 
-    public virtual void SetUp(AIMission newMission)
-    {
-
-    }
-
     public virtual void AddUnit(ForceUnit unit) {
         units.Add(unit);
     }
