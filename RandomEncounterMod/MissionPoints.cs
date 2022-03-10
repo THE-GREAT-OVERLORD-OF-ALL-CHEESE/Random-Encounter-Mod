@@ -39,10 +39,10 @@ public class MissionPoints
 
         switch (team) {
             case Teams.Allied:
-                opositeTeamPrefix = "a_";
+                opositeTeamPrefix = "e_";
                 break;
             case Teams.Enemy:
-                opositeTeamPrefix = "e_";
+                opositeTeamPrefix = "a_";
                 break;
         }
 
@@ -64,9 +64,9 @@ public class MissionPoints
                 case "e_bomb":
                     bombWaypoints.Add(waypoint.GetTransform());
                     break;
-                case "strike":
-                case "a_strike":
-                case "e_strike":
+                case "cas":
+                case "a_cas":
+                case "e_cas":
                     strikeWaypoints.Add(waypoint.GetTransform());
                     break;
                 case "cap":
@@ -125,6 +125,8 @@ public class MissionPoints
 
         if (spawnWaypoints.Count == 0)//if no spawnpoints exist on this map place 36 spawns around the edge of the map so it at least does something
         {
+            Debug.Log($"No spawn points on this map, adding more");
+
             Vector3D mapCenter = GetCenterPosition();
             
             for (int i = 0; i < 36; i++)
@@ -145,7 +147,7 @@ public class MissionPoints
         Debug.Log($"{strikeWaypoints.Count} strike points");
         Debug.Log($"{CAPWaypoints.Count} CAP points");
         Debug.Log($"{reconWaypoints.Count} recon points");
-        Debug.Log($"{landingWaypoints.Count} recon points");
+        Debug.Log($"{landingWaypoints.Count} landing points");
 
         Debug.Log($"{groundSpawnWaypoints.Count} ground spawn points");
         Debug.Log($"{groundRdvWaypoint.Count} ground rdv points");
@@ -175,6 +177,11 @@ public class MissionPoints
         {
             return 50000;
         }
+    }
+
+    public Vector3D GetRandomSpawnPoint()
+    {
+        return VTMapManager.WorldToGlobalPoint(spawnWaypoints[Random.Range(0, spawnWaypoints.Count)].position);
     }
 
     public Vector3D GetRandomBombingPoint()

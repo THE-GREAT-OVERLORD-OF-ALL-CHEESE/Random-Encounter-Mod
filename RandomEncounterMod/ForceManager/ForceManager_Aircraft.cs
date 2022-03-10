@@ -23,12 +23,12 @@ public class ForceManager_Aircraft : ForceManager
         tasks = new List<AITask>();
 
         Debug.Log("Picking random spawn");
-        missionSpawn = VTMapManager.WorldToGlobalPoint(faction.missionPoints.spawnWaypoints[UnityEngine.Random.Range(0, faction.missionPoints.spawnWaypoints.Count)].position);
+        missionSpawn = faction.missionPoints.GetRandomSpawnPoint();
 
         mission = newMission;
 
         Debug.Log("getting spawn info");
-        Vector3D spawnPos3D = new Vector3D(missionSpawn.x, mission.altitude, missionSpawn.y);
+        Vector3D spawnPos3D = new Vector3D(missionSpawn.x, mission.altitude, missionSpawn.z);
         Quaternion spawnRot = Quaternion.LookRotation((faction.missionPoints.GetCenterPosition() - missionSpawn).toVector3);
         Debug.Log("Mission altitude: " + mission.altitude);
 

@@ -85,6 +85,9 @@ public static class MPUnitSpawnerManager
         Vector3 spawnPos = VTMapManager.GlobalToWorldPoint(pos);
         Quaternion spawnRot = rot;
 
+        aircraftObj.transform.position = spawnPos;
+        aircraftObj.transform.rotation = spawnRot;
+
         aircraftObj.SetActive(false);
         ForceUnit_Aircraft ai = aircraftObj.AddComponent<ForceUnit_Aircraft>();
         ai.SetForce(manager);
@@ -134,7 +137,23 @@ public static class MPUnitSpawnerManager
         loadout.cmLoadout = new int[] { 30, 30 };
         if (ai.wm)
         {
-            ai.wm.EquipWeapons(loadout);
+            if (VTOLMPUtils.IsMultiplayer())
+            {
+                if (VTOLMPLobbyManager.isLobbyHost)
+                {
+                    WeaponManagerSync wmSync = aircraftObj.GetComponentInChildren<WeaponManagerSync>(true);
+                    if (wmSync)
+                    {
+                        wmSync.NetClearWeapons();
+                        wmSync.NetEquipWeapons(loadout, false);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                ai.wm.EquipWeapons(loadout);
+            }
         }
         aircraftSpawnerTraverse.Field("loadout").SetValue(loadout);
     }
