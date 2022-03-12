@@ -45,7 +45,7 @@ public static class MPUnitSpawnerManager
             }
             else
             {
-                Debug.Log("Spawning a " + unitName + " at pos: " + pos.ToString());
+                Debug.Log("Local spawning a " + unitName + " at pos: " + pos.ToString());
                 GameObject aircraftObj = GameObject.Instantiate(UnitCatalogue.GetUnitPrefab(unitName), spawnPos, rot, null);
 
                 SetupUnit(unitSpawner, aircraftObj, manager, type, pos, rot, loadout);
@@ -77,6 +77,12 @@ public static class MPUnitSpawnerManager
             case UnitType.Aircraft:
                 SetupAircraft(spawn, aircraftObj, manager, pos, rot, loadout);
                 break;
+            case UnitType.Land:
+                SetupLand(spawn, aircraftObj, (ForceManager_Ground)manager, pos, rot, loadout);
+                break;
+            case UnitType.Sea:
+                SetupSea(spawn, aircraftObj, (ForceManager_Sea)manager, pos, rot, loadout);
+                break;
         }
     }
 
@@ -88,10 +94,6 @@ public static class MPUnitSpawnerManager
         aircraftObj.transform.position = spawnPos;
         aircraftObj.transform.rotation = spawnRot;
 
-        aircraftObj.SetActive(false);
-        ForceUnit_Aircraft ai = aircraftObj.AddComponent<ForceUnit_Aircraft>();
-        ai.SetForce(manager);
-
         Debug.Log("setting up floating origin");
         FloatingOriginTransform floatingTransform = aircraftObj.GetComponent<FloatingOriginTransform>();
 
@@ -99,6 +101,10 @@ public static class MPUnitSpawnerManager
         {
             floatingTransform = aircraftObj.AddComponent<FloatingOriginTransform>();
         }
+
+        aircraftObj.SetActive(false);
+        ForceUnit_Aircraft ai = aircraftObj.AddComponent<ForceUnit_Aircraft>();
+        ai.SetForce(manager);
 
         floatingTransform.SetRigidbody(aircraftObj.GetComponent<Rigidbody>());
         aircraftObj.GetComponent<Rigidbody>().interpolation = RigidbodyInterpolation.Interpolate;
@@ -156,5 +162,95 @@ public static class MPUnitSpawnerManager
             }
         }
         aircraftSpawnerTraverse.Field("loadout").SetValue(loadout);
+    }
+
+    public static void SetupLand(UnitSpawner spawner, GameObject vehicleObj, ForceManager_Ground manager, Vector3D pos, Quaternion rot, string[] hpLoadout)
+    {
+        Debug.Log("setting up floating origin");
+        FloatingOriginTransform floatingTransform = vehicleObj.GetComponent<FloatingOriginTransform>();
+        if (floatingTransform == null)
+        {
+            Debug.Log("floating origin was null, adding a new one");
+            floatingTransform = vehicleObj.AddComponent<FloatingOriginTransform>();
+        }
+        else
+        {
+            Debug.Log($"{floatingTransform.gameObject.name} already had a floating transform");
+        }
+
+
+        Rigidbody rb = vehicleObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            floatingTransform.SetRigidbody(rb);
+        }
+
+
+        vehicleObj.SetActive(false);
+
+        Actor actor = vehicleObj.GetComponent<Actor>();
+        GroundUnitMover mover = vehicleObj.GetComponent<GroundUnitMover>();
+        manager.squad.RegisterUnit(mover);
+
+
+        GroundUnitSpawn spawn = vehicleObj.GetComponent<GroundUnitSpawn>();
+
+        //spawn.OnPreSpawnUnit();
+
+        manager.spawns.Add(spawn);
+
+        mover.moveSpeed = manager.mission.speed;
+
+        GameObject unitSpawner = new GameObject();
+        spawn.unitSpawner = unitSpawner.AddComponent<UnitSpawner>();
+
+        //modify arty to attack
+        /*ArtilleryUnit arty = vehicleObj.GetComponent<ArtilleryUnit>();
+        if (arty != null && arty.targetFinder == null) {
+            arty.targetFinder = vehicleObj.GetComponent<VisualTargetFinder>();
+            arty.SetEngageEnemies(true);
+        }*/
+
+        vehicleObj.SetActive(true);
+
+        //if (RandomEncounterMod.instance.mpMode)
+        //{
+        //    Debug.Log("MP is enabled, networking this vehicle!");
+        //RandomEncounterMod.instance.MPSetUpAircraft(actor);
+        //}
+    }
+
+    public static void SetupSea(UnitSpawner spawner, GameObject vehicleObj, ForceManager_Sea manager, Vector3D pos, Quaternion rot, string[] hpLoadout)
+    {
+        Debug.Log("setting up floating origin");
+        FloatingOriginTransform floatingTransform = vehicleObj.GetComponent<FloatingOriginTransform>();
+        if (floatingTransform == null)
+        {
+            Debug.Log("floating origin was null, adding a new one");
+            floatingTransform = vehicleObj.AddComponent<FloatingOriginTransform>();
+        }
+        else
+        {
+            Debug.Log($"{floatingTransform.gameObject.name} already had a floating transform");
+        }
+
+
+        Rigidbody rb = vehicleObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            floatingTransform.SetRigidbody(rb);
+        }
+
+
+        vehicleObj.SetActive(false);
+
+        Actor actor = vehicleObj.GetComponent<Actor>();
+        ShipMover mover = vehicleObj.GetComponent<ShipMover>();
+        manager.ship = mover;
+
+        //GameObject unitSpawner = new GameObject();
+        //spawn.unitSpawner = unitSpawner.AddComponent<UnitSpawner>();
+
+        vehicleObj.SetActive(true);
     }
 }

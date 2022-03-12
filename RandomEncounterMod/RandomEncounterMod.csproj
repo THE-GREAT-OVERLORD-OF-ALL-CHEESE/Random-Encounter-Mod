@@ -84,11 +84,14 @@
     <Compile Include="AITasks\AITask_AirSupport.cs" />
     <Compile Include="AITasks\AITask_Recon.cs" />
     <Compile Include="AITasks\AITask_RTB.cs" />
+    <Compile Include="ForceManager\ForceManager_Sea.cs" />
+    <Compile Include="Pathfinding\CheesesPathfindingAgent.cs" />
+    <Compile Include="Pathfinding\CheesesSimplePathfinding.cs" />
     <Compile Include="DefaultMissions.cs" />
     <Compile Include="ForceManager\ForceUnit_Aircraft.cs" />
     <Compile Include="ForceManager\ForceUnit.cs" />
     <Compile Include="ForceManager\ForceManager_Aircraft.cs" />
-    <Compile Include="ForceManager\GroundForceManager.cs" />
+    <Compile Include="ForceManager\ForceManager_Ground.cs" />
     <Compile Include="ForceManager\ForceManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="MissionPoints.cs" />

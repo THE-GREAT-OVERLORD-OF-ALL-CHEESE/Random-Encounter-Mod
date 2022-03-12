@@ -50,9 +50,9 @@ public class AITask_Landing : AITask
             Debug.Log("AI AV-42 Landed, Spawning infantry!");
 
             GameObject forceObject = new GameObject();
-            GroundForceManager force = forceObject.AddComponent<GroundForceManager>();
+            ForceManager_Ground force = forceObject.AddComponent<ForceManager_Ground>();
 
-            force.SetUp(new AIGroundMission("AV-42 Landed Infantry",
+            /*force.SetUp(new AIGroundMission("AV-42 Landed Infantry",
                 new List<string> {
                     "EnemySoldierMANPAD",
                     "EnemySoldier",
@@ -66,7 +66,7 @@ public class AITask_Landing : AITask
                 GroundSquad.GroundFormations.Vee,
                 3),
                 Teams.Enemy,
-                aircraft.aircraft.actor.position);
+                aircraft.aircraft.actor.position);*/
 
             aircraft.aircraft.TakeOff();
         }

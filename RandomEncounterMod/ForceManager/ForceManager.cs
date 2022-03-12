@@ -15,7 +15,6 @@ public class ForceManager : MonoBehaviour
 
     public virtual void SetUp(FactionManager faction, AIMission newMission) {
         this.faction = faction;
-        faction.AddForce(this);
 
         units = new List<ForceUnit>();
     }
@@ -31,9 +30,5 @@ public class ForceManager : MonoBehaviour
             Debug.Log("The force " + forceName + " was completely wiped out.");
             Destroy(gameObject);
         }
-    }
-
-    protected virtual void OnDestroy() {
-        faction.RemoveForce(this);
     }
 }

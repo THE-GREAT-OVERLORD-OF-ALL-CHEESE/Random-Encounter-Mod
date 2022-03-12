@@ -10,7 +10,7 @@ using System.Reflection;
 using Valve.Newtonsoft.Json;
 using System.IO;
 using UnityEngine.Events;
-
+using VTOLVR.Multiplayer;
 
 public class RandomEncounterMod : VTOLMOD
 {
@@ -89,6 +89,9 @@ public class RandomEncounterMod : VTOLMOD
         //enemy.groundSpawnCooldown = SettingsManager.settings.delayGroundSpawnTime * 60;
         Debug.Log("Set the Initial delay to... Air: " + allied.spawnCooldown + ", Ground: " + allied.groundSpawnCooldown);
 
+        GameObject pathfinderObj = new GameObject();
+        pathfinderObj.AddComponent<CheesesSimplePathfinder>();
+
         allied.StartSpawning();
         enemy.StartSpawning();
     }
@@ -105,6 +108,11 @@ public class RandomEncounterMod : VTOLMOD
     {
         if ((currentScene == VTOLScenes.Akutan || currentScene == VTOLScenes.CustomMapBase || currentScene == VTOLScenes.CustomMapBase_OverCloud))
         {
+            if (VTOLMPUtils.IsMultiplayer() && VTOLMPLobbyManager.isLobbyHost == false)
+            {
+                return;
+            }
+
             allied.SpawnerUpdate(Time.fixedDeltaTime);
             enemy.SpawnerUpdate(Time.fixedDeltaTime);
         }

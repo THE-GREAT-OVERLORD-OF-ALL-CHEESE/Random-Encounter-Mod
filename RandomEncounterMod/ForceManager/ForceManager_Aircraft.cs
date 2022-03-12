@@ -18,6 +18,7 @@ public class ForceManager_Aircraft : ForceManager
 
     public override void SetUp(FactionManager faction, AIMission newMission) {
         base.SetUp(faction, newMission);
+        faction.AddForce(this);
 
         aircrafts = new List<ForceUnit_Aircraft>();
         tasks = new List<AITask>();
@@ -99,8 +100,9 @@ public class ForceManager_Aircraft : ForceManager
         aircrafts.Remove((ForceUnit_Aircraft)unit);
     }
 
-    protected override void OnDestroy() {
-        base.OnDestroy();
+    protected void OnDestroy() {
+        faction.RemoveForce(this);
+
         foreach (AITask task in tasks) {
             task.Cleanup();
         }

@@ -17,9 +17,9 @@ public class FactionManager
     public AIMissionGroup missions;
     public MissionPoints missionPoints;
 
-    public List<ForceManager> activeForces;
-    public List<GroundForceManager> activeGroundForces;
-    public List<GroundForceManager> activeShipForces;
+    public List<ForceManager_Aircraft> activeForces;
+    public List<ForceManager_Ground> activeGroundForces;
+    public List<ForceManager_Sea> activeShipForces;
 
     public FactionManager(Teams team)
     {
@@ -27,9 +27,9 @@ public class FactionManager
 
         missions = new AIMissionGroup();
 
-        activeForces = new List<ForceManager>();
-        activeGroundForces = new List<GroundForceManager>();
-        activeShipForces = new List<GroundForceManager>();
+        activeForces = new List<ForceManager_Aircraft>();
+        activeGroundForces = new List<ForceManager_Ground>();
+        activeShipForces = new List<ForceManager_Sea>();
 
         missionPoints = new MissionPoints();
     }
@@ -43,7 +43,7 @@ public class FactionManager
     {
         spawnCooldown -= deltaTime;
 
-        if (activeForces.Count < GetMaxAircraft() && spawnCooldown < 0)
+        if (activeForces.Count < SettingsManager.settings.maxActiveForces && spawnCooldown < 0)
         {
             if (SpawnRandomAirGroup()) {
                 Debug.Log("Spawning was sucsessful!");
@@ -51,54 +51,62 @@ public class FactionManager
             }
         }
 
-        /*
+
         groundSpawnCooldown -= deltaTime;
-        if (activeGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && groundSpawnCooldown < 0 && MissionPointManager.aGroundSpawnWaypoints.Count > 0 && MissionPointManager.aGroundRdvWaypoint.Count > 0)
-        {
-            groundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
-            SpawnRandomGroundGroup(Teams.Allied);
-        }
-        */
-    }
 
-    public float GetMaxAircraft()
-    {
-        if (SettingsManager.settings.autoBalancing && false)
+        if (activeGroundForces.Count < SettingsManager.settings.maxActiveGroundForces && groundSpawnCooldown < 0)
         {
-            int alliedAircraft = 0;
-            foreach (Actor actor in TargetManager.instance.allActors) {
-                if (actor.team == Teams.Allied && actor.role == Actor.Roles.Air) {
-                    alliedAircraft++;
-                }
+            //if (SpawnRandomGroundGroup())
+            //{
+            //    Debug.Log("Spawning was sucsessful!");
+            //    groundSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
+            //}
+        }
+
+
+        shipSpawnCooldown -= deltaTime;
+
+        if (activeShipForces.Count < SettingsManager.settings.maxActiveGroundForces && shipSpawnCooldown < 0)
+        {
+            if (SpawnRandomSeaGroup())
+            {
+                Debug.Log("Spawning was sucsessful!");
+                shipSpawnCooldown = UnityEngine.Random.Range(SettingsManager.settings.minGroundSpawnTime * 60, SettingsManager.settings.maxGroundSpawnTime * 60);
             }
-
-            return alliedAircraft * SettingsManager.settings.enemyRatio;
-        }
-        else {
-            return SettingsManager.settings.maxActiveForces;
         }
     }
 
-    public void AddForce(ForceManager force)
+    public void AddForce(ForceManager_Aircraft force)
     {
         activeForces.Add(force);
     }
 
-    public void RemoveForce(ForceManager force)
+    public void RemoveForce(ForceManager_Aircraft force)
     {
         activeForces.Remove(force);
         Debug.Log("Force " + force.forceName + " has been removed.");
     }
 
-    public void AddGroundForce(GroundForceManager force)
+    public void AddGroundForce(ForceManager_Ground force)
     {
         activeGroundForces.Add(force);
     }
 
-    public void RemoveGroundForce(GroundForceManager force, Teams team)
+    public void RemoveGroundForce(ForceManager_Ground force)
     {
         activeGroundForces.Remove(force);
-        Debug.Log("Ground force " + force.mission.missionName + " has been removed.");
+        Debug.Log("Ship force " + force.mission.missionName + " has been removed.");
+    }
+
+    public void AddSeaForce(ForceManager_Sea force)
+    {
+        activeShipForces.Add(force);
+    }
+
+    public void RemoveSeaForce(ForceManager_Sea force)
+    {
+        activeShipForces.Remove(force);
+        Debug.Log("Ship force has been removed.");
     }
 
     private bool SpawnRandomAirGroup()
@@ -128,35 +136,59 @@ public class FactionManager
         }
         else
         {
-            Debug.Log("No forces are available, cannot spawn enemy forces aircraft.");
+            Debug.Log("No forces are available, cannot spawn aircraft forces.");
             return false;
         }
     }
 
-    private void SpawnRandomGroundGroup(Teams team)
+    private bool SpawnRandomGroundGroup()
     {
         if (VTOLMPUtils.IsMultiplayer() && VTOLMPLobbyManager.isLobbyHost == false)
         {
-            return;
+            return false;
         }
 
-        if (missions.missions.Count > 0)
+        if (missions.missions.Count > 0 && missionPoints.groundSpawnWaypoints.Count > 0 && missionPoints.groundRdvWaypoint.Count > 0)
         {
-            AIGroundMission mission = missions.groundMissions[UnityEngine.Random.Range(0, missions.groundMissions.Count)];
-
-
-            Debug.Log("Spawning the ground force " + mission.missionName);
+            //AIGroundMission mission = missions.groundMissions[UnityEngine.Random.Range(0, missions.groundMissions.Count)];
+            //Debug.Log("Spawning the ground force " + mission.missionName);
 
             GameObject forceObject = new GameObject();
-            GroundForceManager force = forceObject.AddComponent<GroundForceManager>();
+            ForceManager_Ground force = forceObject.AddComponent<ForceManager_Ground>();
 
-            Waypoint spawn = missionPoints.GetRandomGndSpawnPoint();
-            force.SetUp(mission, team, spawn.worldPosition);
+            force.SetUp(this, null);
+            return true;
         }
         else
         {
-            Debug.Log("No forces are available, cannot spawn enemy ground forces.");
+            //Debug.Log("No forces are available, cannot spawn ground forces.");
         }
+        return false;
+    }
+
+    private bool SpawnRandomSeaGroup()
+    {
+        if (VTOLMPUtils.IsMultiplayer() && VTOLMPLobbyManager.isLobbyHost == false)
+        {
+            return false;
+        }
+
+        if (missions.missions.Count > 0 && missionPoints.seaSpawnWaypoints.Count > 0 && missionPoints.seaRdvWaypoints.Count > 0)
+        {
+            //AIGroundMission mission = missions.groundMissions[UnityEngine.Random.Range(0, missions.groundMissions.Count)];
+            //Debug.Log("Spawning the ground force " + mission.missionName);
+
+            GameObject forceObject = new GameObject();
+            ForceManager_Sea force = forceObject.AddComponent<ForceManager_Sea>();
+
+            force.SetUp(this, null);
+            return true;
+        }
+        else
+        {
+            //Debug.Log("No forces are available, cannot spawn sea forces.");
+        }
+        return false;
     }
 
     public bool IsMissionValid(AIMission mission) {
